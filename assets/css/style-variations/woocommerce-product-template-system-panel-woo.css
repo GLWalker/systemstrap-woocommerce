@@ -1,0 +1,17 @@
+/* Woo Product Template — System Panel Woo */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo > li {
+    background: var(--wp--custom--system-ui-surface, transparent);
+    border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+    border-radius: var(--wp--custom--border-radius);
+    box-shadow: var(--wp--custom--shadow);
+    overflow: hidden;
+    padding: var(--wp--preset--spacing--30);
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo > li > :first-child {
+    margin-top: 0;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo > li > :last-child {
+    margin-bottom: 0;
+}

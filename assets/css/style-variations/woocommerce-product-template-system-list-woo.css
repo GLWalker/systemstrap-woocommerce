@@ -1,0 +1,16 @@
+/* Woo Product Template — System List Woo */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-woo {
+    border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+    border-radius: var(--wp--custom--border-radius);
+    overflow: hidden;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-woo > li {
+    background: var(--wp--custom--system-ui-surface, transparent);
+    margin: 0;
+    padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-woo > li + li {
+    border-top: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+}

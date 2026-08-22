@@ -1,0 +1,9 @@
+/* Woo Product Reviews Pagination — System UI Pagination Woo */
+.wp-block-woocommerce-product-reviews-pagination.is-style-system-ui-pagination-woo :is(a, span) {
+    border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+    border-radius: var(--wp--custom--border-radius-sm);
+}
+
+.wp-block-woocommerce-product-reviews-pagination.is-style-system-ui-pagination-woo [aria-current="page"] {
+    background: color-mix(in srgb, currentColor 12%, transparent);
+}

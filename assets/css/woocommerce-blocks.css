@@ -1,0 +1,6 @@
+/**
+ * SystemStrap WooCommerce block style anchor.
+ *
+ * Public Woo block treatments are loaded from their registered variation
+ * assets. Cart and Checkout private React internals receive no DOM rewrite.
+ */
