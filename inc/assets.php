@@ -99,6 +99,7 @@ function strap_woocommerce_register_block_styles() {
 	$plugin_dir = plugin_dir_path( __DIR__ );
 	$plugin_url = plugin_dir_url( __DIR__ );
 	$seen       = array();
+	$handles    = array();
 
 	foreach ( strap_woocommerce_component_registry() as $component ) {
 		if ( empty( $component['block_name'] ) || empty( $component['treatments'] ) ) {
@@ -117,15 +118,19 @@ function strap_woocommerce_register_block_styles() {
 
 			$handle = 'strap-woocommerce-' . sanitize_title( basename( $file, '.css' ) );
 
-			wp_enqueue_block_style(
-				$component['block_name'],
-				array(
-					'handle' => $handle,
-					'src'    => $plugin_url . 'assets/css/style-variations/' . $treatment['stylesheet'],
-					'path'   => $file,
-					'deps'   => array( 'strap-woocommerce-blocks', 'strap-woocommerce-variation-anchor' ),
-				)
-			);
+			if ( ! isset( $handles[ $component['block_name'] ][ $handle ] ) ) {
+				wp_enqueue_block_style(
+					$component['block_name'],
+					array(
+						'handle' => $handle,
+						'src'    => $plugin_url . 'assets/css/style-variations/' . $treatment['stylesheet'],
+						'path'   => $file,
+						'deps'   => array( 'strap-woocommerce-blocks', 'strap-woocommerce-variation-anchor' ),
+					)
+				);
+
+				$handles[ $component['block_name'] ][ $handle ] = true;
+			}
 
 			register_block_style(
 				$component['block_name'],
@@ -141,6 +146,20 @@ function strap_woocommerce_register_block_styles() {
 	}
 }
 add_action( 'init', 'strap_woocommerce_register_block_styles', 20 );
+
+/**
+ * Add Product Template preset-background propagation after the companion
+ * stylesheet has been registered and enqueued in the current context.
+ */
+function strap_woocommerce_enqueue_product_template_dynamic_styles() {
+	$css = strap_woocommerce_get_product_template_dynamic_styles();
+
+	if ( '' !== $css ) {
+		wp_add_inline_style( 'strap-woocommerce-blocks', $css );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'strap_woocommerce_enqueue_product_template_dynamic_styles', 25 );
+add_action( 'enqueue_block_editor_assets', 'strap_woocommerce_enqueue_product_template_dynamic_styles', 25 );
 
 /**
  * Place Woo generic and variation assets in SystemStrap's established buckets.

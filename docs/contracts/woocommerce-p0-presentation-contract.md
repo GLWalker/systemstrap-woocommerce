@@ -40,6 +40,24 @@ external-product link, variable/grouped-product link, loading, added, disabled,
 focus, accessible-label, and View Cart states. It must not replace the child
 element or its WooCommerce interactivity directives.
 
+### Product Template
+
+Product Template registers only `system-panel-woo`, `system-list-woo`, and
+`system-list-flush-woo` on `woocommerce/product-template`. The public root is
+the rendered Product Template `ul`; the only approved presentation child target
+is its direct `li.wc-block-product` card.
+
+System Panel Woo MUST preserve WooCommerce's selected Product Collection
+grid/flex layout and responsive column calculation. System List Woo and System
+List Flush Woo MUST intentionally use a vertical row stack. Product Image,
+Title, Price, Button, and other authored Product Template children retain their
+own block ownership.
+
+Only System Panel Woo may route a preset background or gradient from the
+selected Product Template root to direct product cards. That route MUST use
+existing SystemStrap preset/custom-property tokens. It MUST NOT target Product
+children or parse/propagate unproven custom background values.
+
 ### Product Reviews and Reviews Pagination
 
 The final user-facing Woo reviews treatments are System List Woo, System List

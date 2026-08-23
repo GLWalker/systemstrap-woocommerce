@@ -24,8 +24,28 @@ function strap_woocommerce_component_registry() {
 			'application' => 'authored_block_class',
 			'treatments'  => array(
 				'native'           => array( 'label' => 'Native WooCommerce' ),
-				'system-panel-woo' => array( 'label' => 'System Panel Woo', 'class' => 'is-style-system-panel-woo', 'stylesheet' => 'woocommerce-product-template-system-panel-woo.css' ),
-				'system-list-woo'  => array( 'label' => 'System List Woo', 'class' => 'is-style-system-list-woo', 'stylesheet' => 'woocommerce-product-template-system-list-woo.css' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'is-style-system-panel-woo',
+					'stylesheet'         => 'woocommerce-product-template-system-panel-woo.css',
+					'presentation_depth' => 2,
+					'child_targets'      => array( '> li.wc-block-product' ),
+					'propagated_styles'  => array( 'background', 'background_image', 'color' ),
+				),
+				'system-list-woo'  => array(
+					'label'              => 'System List',
+					'class'              => 'is-style-system-list-woo',
+					'stylesheet'         => 'woocommerce-product-template-system-list-woo.css',
+					'presentation_depth' => 2,
+					'child_targets'      => array( '> li.wc-block-product' ),
+				),
+				'system-list-flush-woo' => array(
+					'label'              => 'System List Flush',
+					'class'              => 'is-style-system-list-flush-woo',
+					'stylesheet'         => 'woocommerce-product-template-system-list-woo.css',
+					'presentation_depth' => 2,
+					'child_targets'      => array( '> li.wc-block-product' ),
+				),
 			),
 		),
 		'product_images' => array(
