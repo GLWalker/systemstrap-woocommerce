@@ -1,0 +1,86 @@
+/* Account Navigation ports the Page List System List contract to Woo's nav > ul > li > a structure. */
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation > ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	color: inherit;
+}
+
+.strap-woocommerce-account-navigation.is-style-system-list-woo > .woocommerce-MyAccount-navigation > ul {
+	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+	border-radius: var(--wp--custom--border-radius);
+	overflow: hidden;
+}
+
+.strap-woocommerce-account-navigation.is-style-system-list-flush-woo > .woocommerce-MyAccount-navigation > ul {
+	border: 0;
+	border-radius: 0;
+	overflow: visible;
+}
+
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	position: relative;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background-color: var(--wp--custom--system-ui-surface);
+	background-image: var(--wp--custom--system-ui-background-image, none);
+	backdrop-filter: var(--wp--custom--system-ui-backdrop-filter, none);
+	-webkit-backdrop-filter: var(--wp--custom--system-ui-backdrop-filter, none);
+}
+
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation li + li {
+	border-top: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+}
+
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation a {
+	display: block;
+	flex-grow: 1;
+	min-width: 0;
+	padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+	position: relative;
+	z-index: 1;
+	color: inherit;
+	font-family: var(--wp--preset--font-family--button);
+	font-weight: var(--wp--custom--font-weight-nav);
+	line-height: 1.35;
+	text-decoration: none;
+	transition: background-color .15s ease-in-out;
+}
+
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation li:hover > a,
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation li.is-active > a,
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation li:has(> a[aria-current="page"]) > a {
+	background: var(--wp--custom--system-ui-list-hover-bg);
+}
+
+.strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation a:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: -2px;
+	z-index: 2;
+}
+
+.strap-woocommerce-account-content.is-style-system-table-panel-woo :is(.woocommerce-orders-table, .woocommerce-MyAccount-downloads, .woocommerce-Downloads) {
+	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color, var(--wp--preset--color--border-color));
+	border-radius: var(--wp--custom--border-radius-lg);
+	background: var(--wp--custom--system-ui-surface, transparent);
+	box-shadow: var(--wp--preset--shadow--panel, none);
+}
+
+.strap-woocommerce-account-content.is-style-system-form-controls-woo :is(.woocommerce-form, .woocommerce-EditAccountForm, form.edit-account) {
+	padding: var(--wp--preset--spacing--30);
+	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color, var(--wp--preset--color--border-color));
+	border-radius: var(--wp--custom--border-radius-lg);
+	background: var(--wp--custom--system-ui-surface, transparent);
+	box-shadow: var(--wp--preset--shadow--panel, none);
+}
+
+body.strap-woocommerce-account-notices-is-style-system-notice-woo.woocommerce-account :is(.woocommerce-error, .woocommerce-info, .woocommerce-message) {
+	padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color, var(--wp--preset--color--border-color));
+	border-radius: var(--wp--custom--border-radius-lg);
+	box-shadow: var(--wp--preset--shadow--panel, none);
+}

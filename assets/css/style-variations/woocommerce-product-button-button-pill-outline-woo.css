@@ -1,0 +1,10 @@
+.wp-block-button.wc-block-components-product-button.is-style-button-pill-outline-woo > .wp-block-button__link.wp-element-button.wc-block-components-product-button__button {
+	background-color: transparent !important;
+	border: var(--wp--custom--border-width, 1px) solid currentColor !important;
+	color: inherit;
+	padding-top: calc(var(--wp--preset--font-size--small) * .5) !important;
+	padding-bottom: calc(var(--wp--preset--font-size--small) * .5) !important;
+	padding-left: var(--wp--preset--font-size--medium) !important;
+	padding-right: var(--wp--preset--font-size--medium) !important;
+	border-radius: 50rem !important;
+}

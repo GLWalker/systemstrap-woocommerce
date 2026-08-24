@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SystemStrap WooCommerce
  * Description: Lightweight WooCommerce component styling for the SystemStrap theme.
- * Version: 1.5.0
+ * Version: 1.5.1
  * Author: SystemStrap
  * Text Domain: systemstrap-woocommerce
  */
@@ -20,6 +20,8 @@ function strap_woocommerce_init() {
 	}
 
 	require_once plugin_dir_path( __FILE__ ) . 'inc/component-registry.php';
+	require_once plugin_dir_path( __FILE__ ) . 'inc/settings.php';
+	require_once plugin_dir_path( __FILE__ ) . 'inc/block-compatibility.php';
 	require_once plugin_dir_path( __FILE__ ) . 'inc/presentation.php';
 	require_once plugin_dir_path( __FILE__ ) . 'inc/assets.php';
 }

@@ -1,5 +1,5 @@
 /* Woo Product Template — System List and System List Flush */
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) {
     display: flex !important;
     flex-direction: column;
     grid-template-columns: none;
@@ -10,19 +10,19 @@
     color: inherit;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-woo {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-woo:not(.is-product-collection-layout-carousel) {
     border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
     border-radius: var(--wp--custom--border-radius);
     overflow: hidden;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-flush-woo {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-flush-woo:not(.is-product-collection-layout-carousel) {
     border: 0;
     border-radius: 0;
     overflow: visible;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product {
     display: flex;
     flex-direction: column;
     gap: var(--wp--preset--spacing--10);
@@ -37,30 +37,23 @@
     color: inherit;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > * {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product > * {
     margin-block: 0 !important;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product + li.wc-block-product {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product + li.wc-block-product {
     border-top: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo).has-background > li.wc-block-product {
-    background-color: transparent;
-    background-image: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-}
-
-.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo),
-.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
+.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel),
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) {
     border: 0;
     border-radius: inherit;
     overflow: hidden;
 }
 
-.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product,
-.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product,
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product {
     background-color: var(--wp--custom--system-ui-surface-nested, transparent);
     background-image: var(--wp--custom--system-ui-background-image-nested, none);
     backdrop-filter: none !important;

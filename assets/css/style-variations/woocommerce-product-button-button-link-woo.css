@@ -1,0 +1,14 @@
+.wp-block-button.wc-block-components-product-button.is-style-button-link-woo > .wp-block-button__link.wp-element-button.wc-block-components-product-button__button {
+	background: transparent !important;
+	border: none !important;
+	padding: 0 !important;
+	box-shadow: none !important;
+	color: inherit;
+	text-decoration: none;
+}
+
+.wp-block-button.wc-block-components-product-button.is-style-button-link-woo > .wp-block-button__link.wp-element-button.wc-block-components-product-button__button:hover {
+	text-decoration: underline;
+	transform: none !important;
+	box-shadow: none !important;
+}

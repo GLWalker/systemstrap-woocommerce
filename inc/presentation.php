@@ -77,8 +77,8 @@ function strap_woocommerce_resolve_block_presentation( $parsed_block, $context )
 		'child_targets'         => isset( $definition['child_targets'] ) ? $definition['child_targets'] : array(),
 		'propagated_styles'     => isset( $definition['propagated_styles'] ) ? $definition['propagated_styles'] : array(),
 		'propagated_attributes' => array(),
-		'theme_json_baseline'   => null,
-		'preserve_states'       => array(),
+		'theme_json_baseline'   => isset( $definition['theme_json_baseline'] ) ? $definition['theme_json_baseline'] : null,
+		'preserve_states'       => isset( $definition['preserve_states'] ) && is_array( $definition['preserve_states'] ) ? $definition['preserve_states'] : array(),
 		'context'               => $context,
 		'native_opt_out'        => 'native' === $treatment,
 	);
@@ -121,8 +121,8 @@ function strap_woocommerce_validate_block_presentation( $contract ) {
 	$contract['child_targets']       = isset( $definition['child_targets'] ) ? $definition['child_targets'] : array();
 	$contract['propagated_styles']   = isset( $definition['propagated_styles'] ) ? $definition['propagated_styles'] : array();
 	$contract['propagated_attributes'] = array();
-	$contract['theme_json_baseline']   = null;
-	$contract['preserve_states']       = array();
+	$contract['theme_json_baseline']   = isset( $definition['theme_json_baseline'] ) ? $definition['theme_json_baseline'] : null;
+	$contract['preserve_states']       = isset( $definition['preserve_states'] ) && is_array( $definition['preserve_states'] ) ? $definition['preserve_states'] : array();
 	$contract['native_opt_out']        = 'native' === $treatment;
 
 	if ( $contract['native_opt_out'] ) {
@@ -152,6 +152,12 @@ function strap_woocommerce_render_product_template_presentation( $block_content,
 		$processor = new WP_HTML_Tag_Processor( $block_content );
 
 		if ( $processor->next_tag( array( 'tag_name' => 'ul' ) ) ) {
+			$classes = (string) $processor->get_attribute( 'class' );
+
+			if ( str_contains( $classes, 'is-product-collection-layout-carousel' ) ) {
+				return $block_content;
+			}
+
 			foreach ( $contract['root_classes'] as $class_name ) {
 				$processor->add_class( $class_name );
 			}
@@ -165,44 +171,148 @@ function strap_woocommerce_render_product_template_presentation( $block_content,
 add_filter( 'render_block_woocommerce/product-template', 'strap_woocommerce_render_product_template_presentation', 10, 2 );
 
 /**
- * Generate preset-only Panel background routing for Product Template cards.
+ * Apply an explicit Reviews component mapping to its public Woo wrapper.
+ * Modern and legacy Reviews retain their own public markup beneath this root.
  *
+ * @param string $block_content Rendered block markup.
+ * @param array  $parsed_block  Parsed block data.
  * @return string
  */
-function strap_woocommerce_get_product_template_dynamic_styles() {
-	$settings  = wp_get_global_settings();
-	$colors    = $settings['color']['palette']['theme'] ?? array();
-	$gradients = $settings['color']['gradients']['theme'] ?? array();
-	$root      = ':is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo';
-	$css       = '';
+function strap_woocommerce_render_product_reviews_presentation( $block_content, $parsed_block ) {
+	$context  = is_admin() ? 'editor' : 'frontend';
+	$contract = strap_woocommerce_resolve_block_presentation( $parsed_block, $context );
 
-	foreach ( $colors as $color ) {
-		$slug = sanitize_title( $color['slug'] ?? '' );
-
-		if ( '' === $slug ) {
-			continue;
-		}
-
-		$css .= sprintf(
-			"%1\$s.has-%2\$s-background-color { background-color: transparent !important; }\n%1\$s.has-%2\$s-background-color > li.wc-block-product { background-color: var(--wp--preset--color--%2\$s) !important; color: var(--wp--preset--color--%2\$s-text, inherit) !important; }\n",
-			$root,
-			$slug
-		);
+	if ( empty( $contract ) || $contract['native_opt_out'] || 'admin' !== $contract['selection_source'] || empty( $contract['root_classes'] ) || ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		return $block_content;
 	}
 
-	foreach ( $gradients as $gradient ) {
-		$slug = sanitize_title( $gradient['slug'] ?? '' );
+	$processor = new WP_HTML_Tag_Processor( $block_content );
 
-		if ( '' === $slug ) {
-			continue;
-		}
-
-		$css .= sprintf(
-			"%1\$s.has-%2\$s-gradient-background { background-image: none !important; }\n%1\$s.has-%2\$s-gradient-background > li.wc-block-product { background-image: var(--wp--preset--gradient--%2\$s) !important; }\n",
-			$root,
-			$slug
-		);
+	if ( ! $processor->next_tag() ) {
+		return $block_content;
 	}
 
-	return $css;
+	foreach ( $contract['root_classes'] as $class_name ) {
+		$processor->add_class( $class_name );
+	}
+
+	return apply_filters( 'strap_woocommerce_block_presentation_output', $processor->get_updated_html(), $contract, $parsed_block, $context );
 }
+add_filter( 'render_block_woocommerce/product-reviews', 'strap_woocommerce_render_product_reviews_presentation', 10, 2 );
+
+/**
+ * Return the selected Account mapping class when it is non-native.
+ *
+ * @param string $component_id Account component registry identifier.
+ * @return string
+ */
+function strap_woocommerce_get_account_mapping_class( $component_id ) {
+	$registry  = strap_woocommerce_component_registry();
+	$treatment = strap_woocommerce_get_component_treatment( $component_id );
+
+	if ( ! isset( $registry[ $component_id ]['treatments'][ $treatment ] ) || 'native' === $treatment ) {
+		return '';
+	}
+
+	return isset( $registry[ $component_id ]['treatments'][ $treatment ]['class'] ) ? $registry[ $component_id ]['treatments'][ $treatment ]['class'] : '';
+}
+
+/**
+ * Wrap the stable Account navigation hook output only for a selected mapping.
+ */
+function strap_woocommerce_before_account_navigation_presentation() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$class_name = strap_woocommerce_get_account_mapping_class( 'account_navigation' );
+
+	if ( '' === $class_name ) {
+		return;
+	}
+
+	echo '<div class="strap-woocommerce-account-navigation ' . esc_attr( $class_name ) . '">';
+}
+add_action( 'woocommerce_before_account_navigation', 'strap_woocommerce_before_account_navigation_presentation', 1 );
+
+/**
+ * Close the selected Account navigation presentation wrapper.
+ */
+function strap_woocommerce_after_account_navigation_presentation() {
+	if ( is_admin() || '' === strap_woocommerce_get_account_mapping_class( 'account_navigation' ) ) {
+		return;
+	}
+
+	echo '</div>';
+}
+add_action( 'woocommerce_after_account_navigation', 'strap_woocommerce_after_account_navigation_presentation', 999 );
+
+/**
+ * Return selected Account content mapping classes.
+ *
+ * @return array<int, string>
+ */
+function strap_woocommerce_get_account_content_mapping_classes() {
+	$classes = array( 'strap-woocommerce-account-content' );
+
+	foreach ( array( 'orders_table', 'downloads_table', 'account_form_controls' ) as $component_id ) {
+		$class_name = strap_woocommerce_get_account_mapping_class( $component_id );
+
+		if ( '' !== $class_name ) {
+			$classes[] = $class_name;
+		}
+	}
+
+	return $classes;
+}
+
+/**
+ * Wrap stable Account endpoint output only when a mapped treatment is active.
+ */
+function strap_woocommerce_before_account_content_presentation() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$classes = strap_woocommerce_get_account_content_mapping_classes();
+
+	if ( 1 === count( $classes ) ) {
+		return;
+	}
+
+	echo '<div class="' . esc_attr( implode( ' ', $classes ) ) . '">';
+}
+add_action( 'woocommerce_account_content', 'strap_woocommerce_before_account_content_presentation', 1 );
+
+/**
+ * Close the Account endpoint presentation wrapper after native endpoint output.
+ */
+function strap_woocommerce_after_account_content_presentation() {
+	if ( is_admin() || 1 === count( strap_woocommerce_get_account_content_mapping_classes() ) ) {
+		return;
+	}
+
+	echo '</div>';
+}
+add_action( 'woocommerce_account_content', 'strap_woocommerce_after_account_content_presentation', 999 );
+
+/**
+ * Add the selected notice mapping to the Account page body only.
+ *
+ * @param array<int, string> $classes Existing body classes.
+ * @return array<int, string>
+ */
+function strap_woocommerce_account_notice_presentation_body_class( $classes ) {
+	if ( ! function_exists( 'is_account_page' ) || ! is_account_page() ) {
+		return $classes;
+	}
+
+	$class_name = strap_woocommerce_get_account_mapping_class( 'notices' );
+
+	if ( '' !== $class_name ) {
+		$classes[] = 'strap-woocommerce-account-notices-' . $class_name;
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'strap_woocommerce_account_notice_presentation_body_class' );
