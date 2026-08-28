@@ -112,11 +112,46 @@ remain WooCommerce layout modes. Native Carousel is a terminal Woo-owned
 interaction boundary: its layout, scrolling, responsive item sizing, controls,
 and Interactivity API directives must not be replaced or rewritten.
 
+Product Collection geometry and Product Template presentation are independent
+axes except for the width-sensitive Grid normalization defined for System List
+Woo and System List Flush Woo below. WooCommerce retains query selection,
+saved `displayLayout` attributes, Stack/Carousel behavior, track behavior,
+scrolling, and interactivity. The selected Product Template style owns the
+mapped item presentation:
+
+| Product Collection | Default | System Panel Woo | System List Woo | System List Flush Woo |
+| --- | --- | --- | --- | --- |
+| Stack | Native stacked Woo products | Existing Panel presentation on each product | Full-width List media rows | The same media rows with Flush chrome |
+| Grid | Native Woo grid | Existing Panel presentation on each product | List-derived media cards within the Woo grid | The same media cards with Flush chrome |
+| Carousel | Native Woo carousel | Existing Panel presentation on each slide | List-derived media cards within Woo slides | The same media cards with Flush chrome |
+
 System Panel Woo MUST preserve WooCommerce's selected Product Collection
 grid/flex layout and responsive column calculation. System List Woo and System
-List Flush Woo MUST intentionally use a vertical row stack. Product Image,
+List Flush Woo are width-sensitive media-object presentations: their Grid root
+MUST normalize saved four-, five-, and six-column selections to a three-column
+maximum above 900px and MUST render one column at and below 900px, including
+at and below 600px. Woo's saved column selection remains untouched. Default
+and Panel treatments are not subject to this normalization. Product Image,
 Title, Price, Button, and other authored Product Template children retain their
 own block ownership.
+
+When a selected List treatment has a direct Product Image child, its direct
+product card maps the existing Latest Posts System List media-object contract to
+the public Woo blocks. `--wp--custom--medium-width`, emitted by SystemStrap
+from WordPress Media Settings `medium_size_w`, is the authoritative maximum
+image lane width. The image retains its existing Woo aspect-ratio behavior; the
+remaining direct children occupy a compact, start-aligned content lane with the
+existing SystemStrap spacing tokens. At the established 600px narrow-screen
+breakpoint, Product Image remains primary commerce content at the dynamic
+Thumbnail width while the media row remains intact.
+
+Stack List uses the standalone List shell and row seams. Grid and Carousel List
+apply that List-derived shell to each direct product card, never to the Grid
+root or Carousel track; their independent cards do not acquire Stack seams.
+Flush removes the outer border, radius, clipping, and shadow while retaining the
+List row surface and applicable seams. A direct System Panel parent owns the
+composed shell: nested List roots/cards must route to the nested System UI
+surface and suppress additional List shadow/chrome.
 
 SystemStrap's conditional theme compatibility layer routes authored Product
 Template background/gradient paint to direct public product cards and
@@ -124,9 +159,10 @@ normalizes the native Stack seam. System Panel Woo builds on that corrected
 base and owns direct-item Panel presentation in Stack, Grid, and Carousel mode.
 In Carousel mode it MUST NOT alter the Product Template root or WooCommerce
 track geometry. Native Grid retains WooCommerce's grid/flex gap and columns.
-System List and System List Flush remain unavailable in Carousel mode because
-their parent-level vertical stack contract would corrupt WooCommerce carousel
-behavior.
+System List and System List Flush remain available in Carousel mode only through
+the direct product-card boundary. They MUST NOT style the WooCommerce carousel
+track or modify its container-query, scrolling, sizing, navigation, or
+interactivity contract.
 
 ### Product Reviews and Reviews Pagination
 
@@ -143,10 +179,21 @@ Both preserve Woo review data, rating semantics, comment form submission,
 interactivity, and Product/Review schema. Rating remains Woo-owned; the
 selected treatment may inherit its color and spacing but must not rewrite it.
 
-The mapping registry retains the seven SystemStrap pagination treatment names
-with the `-woo` suffix for future whole-component selection. The public modern
-Reviews Pagination and legacy `.woocommerce-pagination` surface receive a
-selected mapping through separate adapters. Pagination links, current-page
+System List Woo maps the review list to the Comments List shell and its direct
+review items to List rows. System List Flush Woo maps that same public review
+list to the generic flush List shell and direct review items to flush rows.
+System Panel Woo maps each top-level review item to a Comments Panel. Nested
+reply lists retain Woo markup and receive only the corresponding comments-thread
+rail, indentation, and spacing treatment. Author, metadata, content, rating,
+and pagination remain baseline or Woo-owned except for inherited presentation
+color and spacing.
+
+The mapping registry retains the seven validated SystemStrap pagination
+treatments with the `-woo` suffix: System UI Pagination, Outline, Pill, Pill
+Outline, Square, Square Outline, and Badge. The modern Reviews Pagination
+adapter adds the selected class to Woo's public pagination wrapper. The Reviews
+adapter adds that same class to the legacy Reviews wrapper, where it scopes only
+the public `.woocommerce-pagination` descendant. Pagination links, current-page
 semantics, disabled state, and Woo navigation behavior remain Woo-owned.
 
 Modern Reviews and legacy `comments_template()` fallback require separate
@@ -167,12 +214,12 @@ behavior.
 
 ### Account
 
-Account Navigation, Orders Table, Downloads, Forms, and Notices are Class C
-application components. They have no useful block Styles UI and therefore use
-only the validated companion component mapping option. Account Navigation may
-select Native WooCommerce, System List Woo, or System List Flush Woo. It MUST
-NOT claim System Navigation treatment because its public `nav > ul > li > a`
-markup lacks the Core Navigation structure required by that component.
+Account Navigation is the sole current Account Class C application component.
+It has no useful block Styles UI and therefore uses only the validated companion
+component mapping option. It may select Native WooCommerce, System List Woo, or
+System List Flush Woo. It MUST NOT claim System Navigation treatment because
+its public `nav > ul > li > a` markup lacks the Core Navigation structure
+required by that component.
 
 The System List Woo master is the rendered standalone System List shell used by
 the Archives, Categories, and Pages widgets. Its outer shadow is shared rather
@@ -184,22 +231,20 @@ Therefore the Account System List Woo mapped shell MUST use
 `var(--wp--custom--shadow)`; System List Flush Woo remains a flush treatment
 and MUST NOT receive standalone Panel chrome.
 
-Orders Table and Downloads may select Native WooCommerce or System Table Panel
-Woo. Forms may select Native WooCommerce or System Forms Woo. Notices may
-select Native WooCommerce or System Notice Woo. These treatments use public
-Woo hooks or the Account page body class and must preserve native semantics,
-active state,
-`aria-current`, labels, fields, action links/buttons, responsive table data, and
-extension-hook content.
+Account forms and notices remain owned by the SystemStrap theme compatibility
+baseline and WooCommerce. They MUST NOT receive a companion mapping or
+companion-only presentation CSS. Orders Table and Downloads structural
+treatments are deferred: no independent Account-table mapping may be exposed
+until one unified Woo Tables presentation decision has a validated master and
+public-DOM contract.
 
 Endpoint-specific descendants without a public runtime contract remain Native
 or deferred. They must not be styled through inferred selectors.
 
-SystemStrap's conditional theme compatibility layer owns the unselected Account
-baseline: theme typography, ordinary spacing, native form controls, semantic
-table rhythm, native navigation readability, notices, focus, disabled, invalid,
-and responsive behavior. The companion owns only the optional mapped System UI
-presentation.
+SystemStrap's conditional theme compatibility layer owns the Account baseline:
+theme typography, ordinary spacing, native form controls, semantic table rhythm,
+native navigation readability, notices, focus, disabled, invalid, and responsive
+behavior. The companion owns only the optional Account Navigation presentation.
 
 ## Native Product Gallery exception
 

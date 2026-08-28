@@ -1,32 +1,29 @@
 /* Woo Product Template — System List and System List Flush */
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) {
-    display: flex !important;
-    flex-direction: column;
-    grid-template-columns: none;
-    gap: 0 !important;
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
     list-style: none;
     margin: 0;
     padding: 0;
     color: inherit;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-woo:not(.is-product-collection-layout-carousel) {
+/* Stack retains the System List root and row-shell relationship. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list.is-style-system-list-woo {
     border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
     border-radius: var(--wp--custom--border-radius);
+    box-shadow: var(--wp--custom--shadow);
     overflow: hidden;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-list-flush-woo:not(.is-product-collection-layout-carousel) {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list.is-style-system-list-flush-woo {
     border: 0;
     border-radius: 0;
     overflow: visible;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product {
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
     display: flex;
     flex-direction: column;
     gap: var(--wp--preset--spacing--10);
-    width: 100% !important;
     min-width: 0;
     margin: 0 !important;
     padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
@@ -37,26 +34,211 @@
     color: inherit;
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product > * {
-    margin-block: 0 !important;
+/* The Product List media object is shared by Stack, Grid, and Carousel cards. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product:has(> :is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image)) {
+    --strap-woo-product-list-media-width: var(--wp--custom--medium-width);
+    display: flex;
+    position: relative;
+    min-block-size: calc(var(--wp--preset--spacing--20) + var(--strap-woo-product-list-media-width) + var(--wp--preset--spacing--20));
+    padding-inline-start: calc(var(--wp--preset--spacing--20) + var(--strap-woo-product-list-media-width) + var(--wp--preset--spacing--20));
 }
 
-:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product + li.wc-block-product {
+/* Non-Stack List cards share the accepted three-column Grid media lane.
+   Grid's existing two-column selector below retains its Medium override. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):not(.is-product-collection-layout-list):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+    --strap-woo-product-list-media-width: var(--wp--custom--thumbnail-width);
+}
+
+/* Woo serializes Carousel with verticalAlignment: top, which maps to
+   align-items: flex-start on its horizontal scrolling track. List cards must
+   instead share the flex line's natural cross size so their existing auto
+   action margin resolves to one common bottom baseline. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
+    align-items: stretch;
+}
+
+/* Woo exposes stable columns-* classes. Use canonical SystemStrap image
+   tokens here: CSS calc() division is not a safe cross-browser sizing API. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo).columns-2 > li.wc-block-product {
+    --strap-woo-product-list-media-width: var(--wp--custom--medium-width);
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo).columns-3 > li.wc-block-product {
+    --strap-woo-product-list-media-width: var(--wp--custom--thumbnail-width);
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):is(.columns-4, .columns-5, .columns-6) > li.wc-block-product {
+    --strap-woo-product-list-media-width: var(--wp--custom--thumbnail-width);
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > :is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image) {
+    position: absolute;
+    inset-block-start: var(--wp--preset--spacing--20);
+    inset-inline-start: var(--wp--preset--spacing--20);
+    inline-size: var(--strap-woo-product-list-media-width);
+    max-inline-size: var(--strap-woo-product-list-media-width);
+    margin: 0;
+    overflow: hidden;
+    border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+    border-radius: calc(var(--wp--custom--border-radius) / 1.5);
+}
+
+/* System List media cards normalize Woo's centered product-card utilities at
+   the direct content boundary while leaving Button label alignment untouched. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > :not(:is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image)) {
+    text-align: start;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > :is(.wp-block-button, .wp-block-buttons, .wc-block-components-product-button).is-layout-flex {
+    justify-content: flex-start;
+}
+
+/* Woo centers this component through the root flex container's align-items;
+   move the component only, while the inner link retains its own label centering. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > .wp-block-button.wc-block-components-product-button {
+    align-items: flex-start;
+}
+
+/* Woo's default Product Collection templates serialize a 1rem Button bottom
+   margin on its interactive child. Within the List media-object interior it is
+   structural noise: remove it so the wrapper's auto start margin can align the
+   visible action to the media lane. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product:has(> :is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image)) > .wp-block-button.wc-block-components-product-button {
+    margin-block-start: auto !important;
+    margin-block-end: 0 !important;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product:has(> :is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image)) > .wp-block-button.wc-block-components-product-button > .wc-block-components-product-button__button {
+    margin-block-end: 0 !important;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > :not(:is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image)) :is(.star-rating, .wc-block-grid__product-rating__stars, .wc-block-product-review-rating__stars) {
+    margin-inline: 0;
+}
+
+/* Woo's Carousel already caps product slides at 400px. List media cards reuse
+   that existing cap as their minimum useful width, so narrower containers show
+   fewer scrollable cards instead of compressing the canonical media object.
+   The active flex layout's growth allocation would otherwise stretch those
+   cards beyond Woo's cap; retain the minimum but leave surplus track space. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+    min-inline-size: min(100%, 400px);
+    flex-grow: 0;
+}
+
+/* Woo's carousel root is the named inline-size container. The authoritative
+   track gap is 1rem; .666667rem is its browser-safe two-thirds equivalent,
+   so three preferred cards plus two gaps fill the track without clipping. */
+@container carousel (min-width: 960px) {
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+        --strap-woo-product-list-carousel-preferred-width: min(400px, calc(33.333333% - .666667rem));
+        flex-basis: var(--strap-woo-product-list-carousel-preferred-width);
+        min-inline-size: min(100%, max(var(--wp--custom--thumbnail-width), var(--strap-woo-product-list-carousel-preferred-width)));
+    }
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > :is(.wp-block-woocommerce-product-image, .wc-block-components-product-image) img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product + li.wc-block-product {
     border-top: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
 }
 
-.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel),
-.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) {
+/* A System Panel owns the composed Stack shell and routes row paint nested. */
+.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list:is(.is-style-system-list-woo, .is-style-system-list-flush-woo),
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
     border: 0;
     border-radius: inherit;
+    box-shadow: none !important;
     overflow: hidden;
 }
 
-.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product,
-.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo):not(.is-product-collection-layout-carousel) > li.wc-block-product {
+.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product,
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-list:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
     background-color: var(--wp--custom--system-ui-surface-nested, transparent);
     background-image: var(--wp--custom--system-ui-background-image-nested, none);
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     box-shadow: none !important;
+}
+
+/* Grid and Carousel retain Woo-owned geometry. Each direct product card, not
+   the collection root/track, receives the standalone List card shell. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container, .is-product-collection-layout-carousel).is-style-system-list-woo > li.wc-block-product {
+    border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+    border-radius: var(--wp--custom--border-radius);
+    box-shadow: var(--wp--custom--shadow);
+    overflow: hidden;
+}
+
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container, .is-product-collection-layout-carousel).is-style-system-list-flush-woo > li.wc-block-product {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.wp-block-group.is-style-system-panel > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product,
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+    border: 0;
+    border-radius: 0;
+    background-color: var(--wp--custom--system-ui-surface-nested, transparent);
+    background-image: var(--wp--custom--system-ui-background-image-nested, none);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* System List media cards are width-sensitive: Woo's saved columns-* value is
+   retained, while List/List Flush normalize the rendered Grid geometry. */
+@media (min-width: 901px) {
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).wc-block-product-template__responsive:is(.columns-4, .columns-5, .columns-6):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-flex-container:is(.columns-4, .columns-5, .columns-6):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+        width: calc(33.33333% - .83333em) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).wc-block-product-template__responsive:not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-flex-container:not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+        width: 100% !important;
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+        --strap-woo-product-list-media-width: var(--wp--custom--medium-width) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).wc-block-product-template__responsive:not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-flex-container:not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+        width: 100% !important;
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.wc-block-product-template__responsive, .is-flex-container):not(.is-product-collection-layout-list, .is-product-collection-layout-carousel):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product {
+        --strap-woo-product-list-media-width: var(--wp--custom--thumbnail-width) !important;
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product:has(> :is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image)) {
+        min-block-size: calc(var(--wp--custom--thumbnail-width) + (var(--wp--preset--spacing--20) * 2));
+        padding-inline-start: calc(var(--wp--preset--spacing--20) + var(--wp--custom--thumbnail-width) + var(--wp--preset--spacing--20));
+    }
+
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template):is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > li.wc-block-product > :is([data-block-name="woocommerce/product-image"], .wp-block-woocommerce-product-image, .wc-block-components-product-image) {
+        display: block;
+        inline-size: var(--wp--custom--thumbnail-width);
+        max-inline-size: var(--wp--custom--thumbnail-width);
+    }
 }

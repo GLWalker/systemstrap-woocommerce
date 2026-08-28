@@ -197,51 +197,13 @@ function strap_woocommerce_component_registry() {
 		),
 		'account_navigation' => array(
 			'label'       => 'Account Navigation',
-			'sibling'     => 'core/navigation',
+			'sibling'     => 'core/page-list',
 			'default'     => 'native',
 			'application' => 'admin_mapping',
 			'treatments'  => array(
 				'native'                => array( 'label' => 'Native WooCommerce' ),
 				'system-list-woo'       => array( 'label' => 'System List Woo', 'class' => 'is-style-system-list-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 2, 'child_targets' => array( '> nav > ul > li' ) ),
 				'system-list-flush-woo' => array( 'label' => 'System List Flush Woo', 'class' => 'is-style-system-list-flush-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 2, 'child_targets' => array( '> nav > ul > li' ) ),
-			),
-		),
-		'orders_table' => array(
-			'label'       => 'Orders Table',
-			'sibling'     => 'core/table',
-			'default'     => 'native',
-			'application' => 'admin_mapping',
-			'treatments'  => array(
-				'native'                 => array( 'label' => 'Native WooCommerce' ),
-				'system-table-panel-woo' => array( 'label' => 'System Table Panel Woo', 'class' => 'is-style-system-table-panel-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 2, 'child_targets' => array( '> table.woocommerce-orders-table' ) ),
-			),
-		),
-		'downloads_table' => array(
-			'label'       => 'Downloads',
-			'sibling'     => 'core/table',
-			'default'     => 'native',
-			'application' => 'admin_mapping',
-			'treatments'  => array(
-				'native'                 => array( 'label' => 'Native WooCommerce' ),
-				'system-table-panel-woo' => array( 'label' => 'System Table Panel Woo', 'class' => 'is-style-system-table-panel-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 2, 'child_targets' => array( '> :is(table.woocommerce-MyAccount-downloads, .woocommerce-Downloads)' ) ),
-			),
-		),
-		'account_form_controls' => array(
-			'label'       => 'Account Form Controls',
-			'default'     => 'native',
-			'application' => 'admin_mapping',
-			'treatments'  => array(
-				'native'                   => array( 'label' => 'Native WooCommerce' ),
-				'system-form-controls-woo' => array( 'label' => 'System Forms Woo', 'class' => 'is-style-system-form-controls-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 2, 'child_targets' => array( '> form' ) ),
-			),
-		),
-		'notices' => array(
-			'label'       => 'Notices',
-			'default'     => 'native',
-			'application' => 'admin_mapping',
-			'treatments'  => array(
-				'native'            => array( 'label' => 'Native WooCommerce' ),
-				'system-notice-woo' => array( 'label' => 'System Notice Woo', 'class' => 'is-style-system-notice-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 1, 'child_targets' => array( '> :is(.woocommerce-error, .woocommerce-info, .woocommerce-message)' ) ),
 			),
 		),
 		'cart_checkout' => array(

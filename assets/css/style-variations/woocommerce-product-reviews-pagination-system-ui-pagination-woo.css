@@ -1,216 +1,129 @@
-/* Woo Product Reviews Pagination — SystemStrap pagination family. */
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) {
-    --strap-woo-pagination-accent: currentColor;
-    --strap-woo-pagination-bg: color-mix(in srgb, currentColor 12%, transparent);
-    --strap-woo-pagination-border-color: var(--wp--custom--system-ui-border-color);
-    --strap-woo-pagination-radius: var(--wp--custom--border-radius);
-    --strap-woo-pagination-padding: calc(var(--wp--preset--font-size--small) * .42) calc(var(--wp--preset--spacing--20) * .9);
-    --strap-woo-pagination-size: calc(var(--wp--preset--font-size--medium) * 2.35);
+/* Woo Product Reviews Pagination — SystemStrap pagination masters adapted to Woo public DOM. */
+:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-square-woo) {
+	--strap-pagination-accent: var(--strap-pagination-user-accent, var(--wp--preset--color--primary));
+	--strap-pagination-surface-color: var(--strap-pagination-user-background, var(--strap-pagination-accent));
+	--strap-pagination-bg: var(--strap-pagination-surface-color);
+	--strap-pagination-border-color: var(--wp--custom--system-ui-border-color);
+	--strap-pagination-color: var(--strap-pagination-user-color, var(--wp--preset--color--primary-text));
+	--strap-pagination-current-bg: color-mix(in srgb, var(--strap-pagination-surface-color) 70%, var(--strap-pagination-contrast-color, color-mix(in srgb, currentColor 60%, var(--strap-pagination-surface-color))));
+	--strap-pagination-current-border-color: var(--wp--custom--system-ui-border-color);
+	--strap-pagination-current-color: var(--strap-pagination-user-color, var(--wp--preset--color--primary-text));
+	--strap-pagination-hover-bg: var(--strap-pagination-surface-color);
+	--strap-pagination-hover-border-color: var(--wp--custom--system-ui-border-color);
+	--strap-pagination-hover-color: var(--strap-pagination-user-color, var(--wp--preset--color--primary-text));
+	--strap-pagination-control-size: calc(var(--wp--preset--font-size--medium) * 2.35);
+	--strap-pagination-arrow-control-size: calc(var(--strap-pagination-control-size) * .88);
+	--strap-pagination-arrow-control-height: max(0px, calc(var(--strap-pagination-control-size) - 6px));
+	--strap-pagination-padding-block: calc(var(--wp--preset--font-size--small) * .42);
+	--strap-pagination-padding-inline: calc(var(--wp--preset--spacing--20) * .9);
+	--strap-pagination-arrow-padding-block: max(0px, calc(var(--strap-pagination-padding-block) - 1px));
+	--strap-pagination-arrow-padding-inline: max(0px, calc(var(--strap-pagination-padding-inline) - 2px));
+	--strap-pagination-padding: var(--strap-pagination-padding-block) var(--strap-pagination-padding-inline);
+	--strap-pagination-radius: var(--wp--custom--border-radius);
 }
 
-.wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo,
-    .is-style-system-list-flush-woo,
-    .is-style-system-panel-woo) .woocommerce-pagination {
-    --strap-woo-pagination-accent: currentColor;
-    --strap-woo-pagination-bg: color-mix(in srgb, currentColor 12%, transparent);
-    --strap-woo-pagination-border-color: var(--wp--custom--system-ui-border-color);
-    --strap-woo-pagination-radius: var(--wp--custom--border-radius);
-    --strap-woo-pagination-padding: calc(var(--wp--preset--font-size--small) * .42) calc(var(--wp--preset--spacing--20) * .9);
-    --strap-woo-pagination-size: calc(var(--wp--preset--font-size--medium) * 2.35);
+.is-style-system-ui-pagination-pill-woo { --strap-pagination-radius: 50rem; }
+.is-style-system-ui-pagination-square-woo { --strap-pagination-radius: 0; }
+
+:is(.is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-outline-woo) {
+	--strap-pagination-accent: var(--strap-pagination-user-accent, currentColor);
+	--strap-pagination-surface-color: var(--strap-pagination-user-background, var(--strap-pagination-accent));
+	--strap-pagination-bg: color-mix(in srgb, var(--strap-pagination-user-background, transparent) 14%, transparent);
+	--strap-pagination-border-color: var(--strap-pagination-accent);
+	--strap-pagination-color: var(--strap-pagination-user-accent, inherit);
+	--strap-pagination-current-bg: color-mix(in srgb, color-mix(in srgb, var(--strap-pagination-surface-color) 40%, var(--strap-pagination-contrast-color, var(--strap-pagination-surface-color))) 18%, transparent);
+	--strap-pagination-current-border-color: var(--strap-pagination-accent);
+	--strap-pagination-current-color: var(--strap-pagination-user-accent, inherit);
+	--strap-pagination-hover-bg: color-mix(in srgb, var(--strap-pagination-user-background, transparent) 18%, transparent);
+	--strap-pagination-hover-border-color: var(--strap-pagination-accent);
+	--strap-pagination-hover-color: var(--strap-pagination-user-accent, inherit);
+	--strap-pagination-control-size: calc(var(--wp--preset--font-size--medium) * 2.35);
+	--strap-pagination-arrow-control-size: calc(var(--strap-pagination-control-size) * .88);
+	--strap-pagination-arrow-control-height: max(0px, calc(var(--strap-pagination-control-size) - 6px));
+	--strap-pagination-padding-block: calc(var(--wp--preset--font-size--small) * .42);
+	--strap-pagination-padding-inline: calc(var(--wp--preset--spacing--20) * .9);
+	--strap-pagination-arrow-padding-block: max(0px, calc(var(--strap-pagination-padding-block) - 1px));
+	--strap-pagination-arrow-padding-inline: max(0px, calc(var(--strap-pagination-padding-inline) - 2px));
+	--strap-pagination-padding: var(--strap-pagination-padding-block) var(--strap-pagination-padding-inline);
+	--strap-pagination-radius: var(--wp--custom--border-radius);
 }
 
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-woo,
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-pill-woo {
-    --strap-woo-pagination-bg: var(--wp--preset--color--primary);
-    --strap-woo-pagination-accent: var(--wp--preset--color--primary-text);
+.is-style-system-ui-pagination-pill-outline-woo { --strap-pagination-radius: 50rem; }
+.is-style-system-ui-pagination-square-outline-woo { --strap-pagination-radius: 0; --strap-pagination-border-width: 1px; }
+
+.is-style-system-ui-pagination-badge-woo {
+	--strap-pagination-accent: var(--strap-pagination-user-accent, currentColor);
+	--strap-pagination-surface-color: var(--strap-pagination-user-background, var(--strap-pagination-accent));
+	--strap-pagination-bg: color-mix(in srgb, var(--strap-pagination-surface-color) 10%, transparent);
+	--strap-pagination-border-color: var(--wp--custom--system-ui-border-color);
+	--strap-pagination-color: var(--strap-pagination-user-accent, inherit);
+	--strap-pagination-current-bg: color-mix(in srgb, var(--strap-pagination-surface-color) 18%, transparent);
+	--strap-pagination-current-border-color: var(--wp--custom--system-ui-border-color);
+	--strap-pagination-current-color: var(--strap-pagination-user-accent, inherit);
+	--strap-pagination-hover-bg: color-mix(in srgb, var(--strap-pagination-surface-color) 14%, transparent);
+	--strap-pagination-hover-border-color: var(--wp--custom--system-ui-border-color);
+	--strap-pagination-hover-color: var(--strap-pagination-user-accent, inherit);
+	--strap-pagination-control-size: calc(var(--wp--custom--badge-font-size) + (var(--wp--custom--badge-padding-y) * 2) + var(--wp--preset--spacing--20));
+	--strap-pagination-arrow-control-size: calc(var(--strap-pagination-control-size) * .78);
+	--strap-pagination-arrow-control-height: max(0px, calc(var(--strap-pagination-control-size) - 6px));
+	--strap-pagination-padding-block: var(--wp--custom--badge-padding-y);
+	--strap-pagination-padding-inline: var(--wp--custom--badge-padding-x);
+	--strap-pagination-arrow-padding-block: max(0px, calc(var(--strap-pagination-padding-block) - 1px));
+	--strap-pagination-arrow-padding-inline: max(0px, calc(var(--strap-pagination-padding-inline) - 2px));
+	--strap-pagination-padding: var(--strap-pagination-padding-block) var(--strap-pagination-padding-inline);
+	--strap-pagination-radius: var(--wp--custom--badge-border-radius);
+	--strap-pagination-font-size: var(--wp--custom--badge-font-size);
+	--strap-pagination-font-weight: var(--wp--custom--badge-font-weight);
 }
 
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-pill-woo,
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-pill-outline-woo {
-    --strap-woo-pagination-radius: 50rem;
+:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) {
+	--strap-pagination-background-image: var(--wp--custom--system-ui-background-image, none);
+	--strap-pagination-border-width: var(--wp--custom--border-width, 1px);
+	--strap-pagination-font-size: inherit;
+	--strap-pagination-font-weight: inherit;
+	--strap-pagination-surface-layer: linear-gradient(color-mix(in srgb, var(--wp--custom--system-ui-surface) 18%, transparent), color-mix(in srgb, var(--wp--custom--system-ui-surface) 18%, transparent));
+	--strap-pagination-current-layer: linear-gradient(var(--wp--custom--system-ui-active-bg), var(--wp--custom--system-ui-active-bg));
+	--strap-pagination-hover-layer: linear-gradient(var(--wp--custom--system-ui-list-hover-bg), var(--wp--custom--system-ui-list-hover-bg));
+	--strap-pagination-transition: color .15s ease-in-out, background-color .15s ease-in-out, background-image .15s ease-in-out, border-color .15s ease-in-out;
 }
+.is-style-system-ui-pagination-badge-woo { --strap-pagination-font-size: var(--wp--custom--badge-font-size); --strap-pagination-font-weight: var(--wp--custom--badge-font-weight); }
 
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-square-woo,
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-square-outline-woo {
-    --strap-woo-pagination-radius: 0;
+:is(.wp-block-woocommerce-product-reviews-pagination, .wp-block-woocommerce-product-reviews):is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) :is(.wp-block-woocommerce-product-reviews-pagination-previous, .wp-block-woocommerce-product-reviews-pagination-next, .wp-block-woocommerce-product-reviews-pagination-numbers > a, .wp-block-woocommerce-product-reviews-pagination-numbers > span, .woocommerce-pagination .page-numbers > li > :is(a, span)) {
+	align-items: center;
+	background-color: var(--strap-pagination-bg) !important;
+	background-image: var(--strap-pagination-surface-layer), var(--strap-pagination-background-image) !important;
+	border: var(--strap-pagination-border-width) solid var(--strap-pagination-border-color) !important;
+	border-radius: var(--strap-pagination-radius);
+	box-shadow: none;
+	color: var(--strap-pagination-color) !important;
+	display: inline-flex;
+	font-size: var(--strap-pagination-font-size);
+	font-weight: var(--strap-pagination-font-weight);
+	justify-content: center;
+	min-inline-size: var(--strap-pagination-control-size);
+	padding: var(--strap-pagination-padding);
+	text-decoration: none;
+	transition: var(--strap-pagination-transition);
 }
+.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) > * { margin: 0; }
 
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next).is-style-system-ui-pagination-badge-woo {
-    --strap-woo-pagination-padding: var(--wp--custom--badge-padding-y) var(--wp--custom--badge-padding-x);
-    --strap-woo-pagination-radius: var(--wp--custom--badge-border-radius);
-    --strap-woo-pagination-size: calc(var(--wp--custom--badge-font-size) + (var(--wp--custom--badge-padding-y) * 2) + var(--wp--preset--spacing--20));
+:is(.wp-block-woocommerce-product-reviews-pagination, .wp-block-woocommerce-product-reviews):is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) :is(.wp-block-woocommerce-product-reviews-pagination-previous, .wp-block-woocommerce-product-reviews-pagination-next, .wp-block-woocommerce-product-reviews-pagination-numbers > a, .woocommerce-pagination .page-numbers > li > a):is(:hover, :focus-visible) {
+	background-color: var(--strap-pagination-hover-bg) !important;
+	background-image: var(--strap-pagination-hover-layer), var(--strap-pagination-background-image) !important;
+	border-color: var(--strap-pagination-hover-border-color) !important;
+	box-shadow: none !important;
+	color: var(--strap-pagination-hover-color) !important;
+	transform: none;
 }
+:is(.wp-block-woocommerce-product-reviews-pagination, .wp-block-woocommerce-product-reviews):is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) :is(.wp-block-woocommerce-product-reviews-pagination-previous, .wp-block-woocommerce-product-reviews-pagination-next, .wp-block-woocommerce-product-reviews-pagination-numbers > a, .woocommerce-pagination .page-numbers > li > a):focus-visible { outline: var(--wp--custom--focus-ring-width) solid var(--wp--custom--focus-ring-color); outline-offset: 2px; }
 
-.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) > *,
-:is(.wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) {
-    margin: 0;
-}
+:is(.wp-block-woocommerce-product-reviews-pagination, .wp-block-woocommerce-product-reviews):is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) :is(.dots, .page-numbers.dots) { background-color: transparent !important; background-image: none !important; border: 0 !important; box-shadow: none; color: inherit !important; min-inline-size: 0; padding: 0; pointer-events: none; text-decoration: none; }
+:is(.wp-block-woocommerce-product-reviews-pagination, .wp-block-woocommerce-product-reviews):is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) :is(.page-numbers.current, [aria-current="page"]) { background-color: var(--strap-pagination-current-bg) !important; background-image: var(--strap-pagination-current-layer), var(--strap-pagination-background-image) !important; border-color: var(--strap-pagination-current-border-color) !important; box-shadow: inset 0 0 0 1px var(--strap-pagination-contrast-color, currentColor) !important; color: var(--strap-pagination-current-color) !important; filter: contrast(1.06); }
+:is(.wp-block-woocommerce-product-reviews-pagination, .wp-block-woocommerce-product-reviews):is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) :is([aria-disabled="true"], :disabled) { background-color: var(--wp--custom--disabled-bg) !important; background-image: none !important; cursor: default; filter: var(--wp--custom--disabled-filter); opacity: var(--wp--custom--disabled-opacity); pointer-events: none; }
 
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) :is(a, .page-numbers) {
-    align-items: center;
-    background-color: var(--strap-woo-pagination-bg) !important;
-    border: var(--wp--custom--border-width, 1px) solid var(--strap-woo-pagination-border-color) !important;
-    border-radius: var(--strap-woo-pagination-radius);
-    box-shadow: none;
-    color: var(--strap-woo-pagination-accent) !important;
-    display: inline-flex;
-    font-size: inherit;
-    justify-content: center;
-    min-inline-size: var(--strap-woo-pagination-size);
-    padding: var(--strap-woo-pagination-padding);
-    text-decoration: none;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
-}
-
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) :is(.page-numbers.current, [aria-current="page"]) {
-    background-color: color-mix(in srgb, var(--strap-woo-pagination-bg) 70%, currentColor) !important;
-    box-shadow: inset 0 0 0 1px currentColor !important;
-    filter: contrast(1.06);
-}
-
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) :is(a, .page-numbers):is(:hover, :focus-visible) {
-    background-color: color-mix(in srgb, var(--strap-woo-pagination-bg) 82%, currentColor) !important;
-    border-color: currentColor !important;
-    box-shadow: none !important;
-    transform: none;
-}
-
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) a:focus-visible {
-    outline: var(--wp--custom--focus-ring-width) solid var(--wp--custom--focus-ring-color);
-    outline-offset: 2px;
-}
-
-:is(.wp-block-woocommerce-product-reviews-pagination,
-    .wp-block-woocommerce-product-reviews-pagination-previous,
-    .wp-block-woocommerce-product-reviews-pagination-numbers,
-    .wp-block-woocommerce-product-reviews-pagination-next):is(.is-style-system-ui-pagination-woo,
-    .is-style-system-ui-pagination-outline-woo,
-    .is-style-system-ui-pagination-pill-woo,
-    .is-style-system-ui-pagination-pill-outline-woo,
-    .is-style-system-ui-pagination-square-woo,
-    .is-style-system-ui-pagination-square-outline-woo,
-    .is-style-system-ui-pagination-badge-woo) :is(.dots, .page-numbers.dots) {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none;
-    color: inherit !important;
-    min-inline-size: 0;
-    padding: 0;
-    pointer-events: none;
-}
-
-/* Legacy comments_template() pagination receives the selected Reviews treatment. */
-.wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo,
-    .is-style-system-list-flush-woo,
-    .is-style-system-panel-woo) .woocommerce-pagination :is(a, .page-numbers) {
-    align-items: center;
-    background-color: var(--strap-woo-pagination-bg) !important;
-    border: var(--wp--custom--border-width, 1px) solid var(--strap-woo-pagination-border-color) !important;
-    border-radius: var(--strap-woo-pagination-radius);
-    box-shadow: none;
-    color: var(--strap-woo-pagination-accent) !important;
-    display: inline-flex;
-    justify-content: center;
-    min-inline-size: var(--strap-woo-pagination-size);
-    padding: var(--strap-woo-pagination-padding);
-    text-decoration: none;
-}
-
-.wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo,
-    .is-style-system-list-flush-woo,
-    .is-style-system-panel-woo) .woocommerce-pagination :is(.page-numbers.current, [aria-current="page"]) {
-    background-color: color-mix(in srgb, var(--strap-woo-pagination-bg) 70%, currentColor) !important;
-    box-shadow: inset 0 0 0 1px currentColor !important;
-}
-
-.wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo,
-    .is-style-system-list-flush-woo,
-    .is-style-system-panel-woo) .woocommerce-pagination :is(.dots, .page-numbers.dots) {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none;
-    color: inherit !important;
-    min-inline-size: 0;
-    padding: 0;
-    pointer-events: none;
-}
+/* Modern Woo blocks expose arrow spans; preserve links and replace only decorative glyphs. */
+.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) > :is(.wp-block-woocommerce-product-reviews-pagination-previous, .wp-block-woocommerce-product-reviews-pagination-next) { align-self: center; box-sizing: border-box; flex: 0 0 var(--strap-pagination-arrow-control-size); block-size: var(--strap-pagination-arrow-control-height) !important; inline-size: var(--strap-pagination-arrow-control-size) !important; min-block-size: var(--strap-pagination-arrow-control-height) !important; min-inline-size: var(--strap-pagination-arrow-control-size) !important; padding-block: var(--strap-pagination-arrow-padding-block) !important; padding-inline: var(--strap-pagination-arrow-padding-inline) !important; position: relative; }
+.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) > :is(.wp-block-woocommerce-product-reviews-pagination-previous, .wp-block-woocommerce-product-reviews-pagination-next) > :is(.wp-block-woocommerce-product-reviews-pagination-previous-arrow, .wp-block-woocommerce-product-reviews-pagination-next-arrow) { display: none; }
+.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) > :is(.wp-block-woocommerce-product-reviews-pagination-previous, .wp-block-woocommerce-product-reviews-pagination-next)::before { border-block-end: .14em solid currentColor; border-inline-end: .14em solid currentColor; content: ""; inline-size: .55rem; block-size: .55rem; }
+.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) > .wp-block-woocommerce-product-reviews-pagination-previous::before { transform: rotate(135deg); }
+.wp-block-woocommerce-product-reviews-pagination:is(.is-style-system-ui-pagination-woo, .is-style-system-ui-pagination-outline-woo, .is-style-system-ui-pagination-pill-woo, .is-style-system-ui-pagination-pill-outline-woo, .is-style-system-ui-pagination-square-woo, .is-style-system-ui-pagination-square-outline-woo, .is-style-system-ui-pagination-badge-woo) > .wp-block-woocommerce-product-reviews-pagination-next::before { transform: rotate(-45deg); }

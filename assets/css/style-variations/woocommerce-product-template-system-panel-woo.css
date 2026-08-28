@@ -6,6 +6,25 @@
     color: inherit;
 }
 
+/* Woo serializes Carousel with verticalAlignment: top, which maps to
+   align-items: flex-start on its horizontal scrolling track. Panels share
+   the flex line's natural cross size without adopting List card geometry. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel.is-style-system-panel-woo {
+    align-items: stretch;
+}
+
+/* At Woo's established desktop Carousel threshold, four Panel slides plus
+   three authoritative 1rem track gaps exactly fill the usable track:
+   4 × (25% - .75rem) + 3 × 1rem = 100%. */
+@container carousel (min-width: 960px) {
+    :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel.is-style-system-panel-woo > li.wc-block-product {
+        --strap-woo-product-panel-carousel-preferred-width: calc(25% - .75rem);
+        flex-basis: var(--strap-woo-product-panel-carousel-preferred-width);
+        min-inline-size: min(100%, var(--strap-woo-product-panel-carousel-preferred-width));
+        max-width: none;
+    }
+}
+
 :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo > li.wc-block-product {
     display: flex;
     flex-direction: column;
@@ -28,6 +47,14 @@
 
 :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo > li.wc-block-product > * {
     margin-block: 0 !important;
+}
+
+/* Override the Panel's normal structural margin reset only for the direct
+   Woo action wrapper, allowing the vertical Panel card to consume its
+   stretched height while retaining the Button's own presentation. */
+:is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel.is-style-system-panel-woo > li.wc-block-product > .wp-block-button.wc-block-components-product-button {
+    margin-block-start: auto !important;
+    margin-block-end: 0 !important;
 }
 
 :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-style-system-panel-woo > li.wc-block-product > :not(:is(.wp-block-woocommerce-product-image, .wc-block-components-product-image)) {

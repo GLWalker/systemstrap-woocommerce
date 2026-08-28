@@ -45,6 +45,19 @@
     transition: background-color .2s ease;
 }
 
+.wp-block-woocommerce-product-reviews.is-style-system-list-flush-woo :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist) {
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+}
+
+.wp-block-woocommerce-product-reviews.is-style-system-list-flush-woo :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist) > li {
+    background-color: var(--wp--custom--system-ui-surface);
+    background-image: var(--wp--custom--system-ui-background-image, none);
+    backdrop-filter: var(--wp--custom--system-ui-backdrop-filter, none);
+    -webkit-backdrop-filter: var(--wp--custom--system-ui-backdrop-filter, none);
+}
+
 :is(.wp-block-woocommerce-product-reviews.is-style-system-list-woo,
     .wp-block-woocommerce-product-reviews.is-style-system-list-flush-woo) :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist) > li + li {
     border-top: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
@@ -94,4 +107,20 @@
 :is(.wp-block-woocommerce-product-reviews.is-style-system-list-woo,
     .wp-block-woocommerce-product-reviews.is-style-system-list-flush-woo) .comment-respond form.comment-form > .form-submit {
     margin-top: var(--wp--preset--spacing--10) !important;
+}
+
+.wp-block-group.is-style-system-panel > .wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist),
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > .wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist) {
+    border: 0;
+    border-radius: inherit;
+    box-shadow: none !important;
+    overflow: hidden;
+}
+
+.wp-block-group.is-style-system-panel > .wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist) > li,
+.wp-block-group.is-style-system-panel .block-editor-block-list__layout > .wp-block-woocommerce-product-reviews:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) :is(.wp-block-woocommerce-product-review-template, #reviews #comments > .commentlist) > li {
+    background-color: var(--wp--custom--system-ui-surface-nested, transparent);
+    background-image: var(--wp--custom--system-ui-background-image-nested, none);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }

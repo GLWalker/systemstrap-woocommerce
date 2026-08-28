@@ -9,6 +9,7 @@
 .strap-woocommerce-account-navigation.is-style-system-list-woo > .woocommerce-MyAccount-navigation > ul {
 	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
 	border-radius: var(--wp--custom--border-radius);
+	box-shadow: var(--wp--custom--shadow);
 	overflow: hidden;
 }
 
@@ -63,24 +64,33 @@
 	z-index: 2;
 }
 
-.strap-woocommerce-account-content.is-style-system-table-panel-woo :is(.woocommerce-orders-table, .woocommerce-MyAccount-downloads, .woocommerce-Downloads) {
-	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color, var(--wp--preset--color--border-color));
-	border-radius: var(--wp--custom--border-radius-lg);
-	background: var(--wp--custom--system-ui-surface, transparent);
-	box-shadow: var(--wp--preset--shadow--panel, none);
+/* A mapped List directly inside a System Panel inherits the composed nested
+ * System List lane: the Panel owns outer chrome and rows use its neutral surface. */
+.wp-block-group.is-style-system-panel > .strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation > ul {
+	border: 0;
+	border-radius: inherit;
+	overflow: hidden;
 }
 
-.strap-woocommerce-account-content.is-style-system-form-controls-woo :is(.woocommerce-form, .woocommerce-EditAccountForm, form.edit-account) {
-	padding: var(--wp--preset--spacing--30);
-	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color, var(--wp--preset--color--border-color));
-	border-radius: var(--wp--custom--border-radius-lg);
-	background: var(--wp--custom--system-ui-surface, transparent);
-	box-shadow: var(--wp--preset--shadow--panel, none);
+.wp-block-group.is-style-system-panel > .strap-woocommerce-account-navigation.is-style-system-list-woo > .woocommerce-MyAccount-navigation > ul {
+	box-shadow: none !important;
 }
 
-body.strap-woocommerce-account-notices-is-style-system-notice-woo.woocommerce-account :is(.woocommerce-error, .woocommerce-info, .woocommerce-message) {
-	padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
-	border: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color, var(--wp--preset--color--border-color));
-	border-radius: var(--wp--custom--border-radius-lg);
-	box-shadow: var(--wp--preset--shadow--panel, none);
+.wp-block-group.is-style-system-panel > .strap-woocommerce-account-navigation:is(.is-style-system-list-woo, .is-style-system-list-flush-woo) > .woocommerce-MyAccount-navigation li {
+	background-color: var(--wp--custom--system-ui-surface-nested, transparent);
+	background-image: var(--wp--custom--system-ui-background-image-nested, none);
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+}
+
+.wp-block-group.is-style-system-panel > .strap-woocommerce-account-navigation.is-style-system-list-flush:first-child > .woocommerce-MyAccount-navigation > ul > li:first-child {
+	border-top: 0;
+	border-top-left-radius: calc(var(--wp--custom--border-radius) - var(--wp--custom--border-width, 1px));
+	border-top-right-radius: calc(var(--wp--custom--border-radius) - var(--wp--custom--border-width, 1px));
+}
+
+.wp-block-group.is-style-system-panel > .strap-woocommerce-account-navigation.is-style-system-list-flush:last-child > .woocommerce-MyAccount-navigation > ul > li:last-child {
+	border-bottom: 0;
+	border-bottom-left-radius: calc(var(--wp--custom--border-radius) - var(--wp--custom--border-width, 1px));
+	border-bottom-right-radius: calc(var(--wp--custom--border-radius) - var(--wp--custom--border-width, 1px));
 }

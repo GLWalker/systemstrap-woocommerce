@@ -4,3 +4,32 @@
  * Public Woo block treatments are loaded from their registered variation
  * assets. Cart and Checkout private React internals receive no DOM rewrite.
  */
+
+/* Product Collection Carousel: Woo receives the shared .strap-icon-button
+   utility through the public render adapter. Keep only Woo-native state and
+   glyph corrections here. */
+.wp-block-woocommerce-product-collection:has(.wc-block-product-template.is-product-collection-layout-carousel) > .wp-block-group > .wc-block-next-previous-buttons .strap-icon-button--woo:not([aria-disabled="true"]):is(:hover, :focus, :active) {
+	background-color: var(--strap-icon-button-hover-background);
+	color: var(--strap-icon-button-hover-color) !important;
+	border-color: var(--strap-icon-button-hover-border-color) !important;
+	box-shadow: var(--strap-icon-button-hover-shadow);
+	transform: var(--strap-icon-button-hover-transform);
+}
+
+.wp-block-woocommerce-product-collection:has(.wc-block-product-template.is-product-collection-layout-carousel) > .wp-block-group > .wc-block-next-previous-buttons .wc-block-next-previous-buttons__button:not([aria-disabled="true"]):focus-visible {
+	outline: none;
+	box-shadow: inset 0 0 0 var(--wp--custom--border-width, 1px) var(--wp--preset--color--primary), 0 0 0 var(--wp--custom--focus-ring-width) var(--wp--custom--focus-ring-color), var(--wp--preset--shadow--btn-icon-hover, none);
+}
+
+/* Woo offsets its arrow SVGs asymmetrically; the circular adapter centers the original glyphs. */
+.wp-block-woocommerce-product-collection:has(.wc-block-product-template.is-product-collection-layout-carousel) > .wp-block-group > .wc-block-next-previous-buttons .wc-block-next-previous-buttons__icon {
+	display: block;
+	padding: 0;
+}
+
+/* Woo inserts the navigation header as a direct Product Collection sibling of
+   the Carousel track. Keep their relationship on the same global block gap
+   regardless of the selected Product Template presentation. */
+.wp-block-woocommerce-product-collection:has(> .wp-block-group > .wc-block-next-previous-buttons) > :is(.wp-block-woocommerce-product-template, .wc-block-product-template).is-product-collection-layout-carousel {
+	margin-block-start: var(--wp--preset--spacing--30);
+}
