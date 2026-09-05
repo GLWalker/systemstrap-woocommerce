@@ -1,0 +1,29 @@
+/*
+ * Woo Tables -> System Panel adapter.
+ *
+ * `strap-table-surface` supplies all shared table paint and seam geometry.
+ * These stable Woo headings need only the structural bridge into that surface.
+ */
+
+.strap-woocommerce-table-surface>.woocommerce-order-details__title,
+.strap-woocommerce-table-surface>.woocommerce-order-downloads>.woocommerce-order-downloads__title {
+    margin: 0;
+    padding: var(--wp--preset--spacing--20) var(--wp--preset--spacing--30);
+    background: var(--wp--custom--system-ui-surface-banner);
+    border-bottom: var(--wp--custom--border-width, 1px) solid var(--wp--custom--system-ui-border-color);
+}
+
+.strap-woocommerce-table-surface>.woocommerce-order-downloads {
+    margin: 0;
+}
+
+/* Woo's Orders verification notice owns the normal Account spacing-30 end margin. */
+.strap-woocommerce-table-surface>.wc-block-components-notice-banner {
+    /* Preserve this selected composition against generic Woo notice margin shorthands. */
+    margin-inline-start: var(--wp--preset--spacing--30) !important;
+    margin-inline-end: var(--wp--preset--spacing--30) !important;
+}
+
+.strap-woocommerce-table-surface> :is(.woocommerce-error, .woocommerce-info, .woocommerce-message, .wc-block-components-notice-banner)+table {
+    margin-block-start: calc(-1 * var(--wp--preset--spacing--30));
+}

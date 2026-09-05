@@ -52,6 +52,22 @@ function strap_woocommerce_register_component_mapping_settings() {
 add_action( 'admin_init', 'strap_woocommerce_register_component_mapping_settings' );
 
 /**
+ * Remove the retired Reviews Pagination mapping from saved component settings.
+ * Modern Reviews Pagination now owns its treatment through normal block styles.
+ */
+function strap_woocommerce_remove_retired_reviews_pagination_mapping() {
+	$mappings = get_option( 'strap_woocommerce_component_mappings', array() );
+
+	if ( ! is_array( $mappings ) || ! array_key_exists( 'reviews_pagination', $mappings ) ) {
+		return;
+	}
+
+	unset( $mappings['reviews_pagination'] );
+	update_option( 'strap_woocommerce_component_mappings', $mappings );
+}
+add_action( 'admin_init', 'strap_woocommerce_remove_retired_reviews_pagination_mapping', 11 );
+
+/**
  * Register the companion settings page.
  */
 function strap_woocommerce_register_component_mapping_page() {

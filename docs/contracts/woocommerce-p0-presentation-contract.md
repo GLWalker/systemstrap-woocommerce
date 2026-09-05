@@ -166,46 +166,79 @@ interactivity contract.
 
 ### Product Reviews and Reviews Pagination
 
-Product Reviews and Reviews Pagination are **Class C — no useful Styles UI**.
-They do not register block-style controls or depend on saved style classes.
-Their final user-facing treatments are selected only through the companion
-component mapping: `system-list-woo`, `system-list-flush-woo`, and
-`system-panel-woo`. Native WooCommerce is terminal: it receives no companion
-Review presentation class.
+Product Review Template registers the normal System List and System Panel
+Styles UI treatments. Its rendered public `ol` receives the neutral
+`.strap-comments-thread` adapter only when either authored style is selected,
+then consumes the existing SystemStrap Comments List or Panel master. Woo's
+client-rendered editor preview receives the same transient bridge through the
+companion editor adapter; no editor-only review paint exists. The public review
+`li` elements receive the item shell; author, date, content, rating, avatar,
+form, and root composition remain WooCommerce-owned.
 
-The modern adapter targets the public Product Review Template `ol > li` review
-tree. The legacy adapter targets the public `comments_template()` comment list.
-Both preserve Woo review data, rating semantics, comment form submission,
-interactivity, and Product/Review schema. Rating remains Woo-owned; the
-selected treatment may inherit its color and spacing but must not rewrite it.
+All Reviews, Reviews by Product, and Reviews by Category register the same
+normal System List and System Panel Styles UI choices. When selected, their
+public authored root receives `.strap-comments-thread`; its direct public `ul`
+then consumes the same Comments master collection and item selectors. The same
+bridge is supplied to the client-rendered editor preview. Sort controls remain
+outside that List or Panel boundary. No archive-specific visual stylesheet
+exists, and native selection withholds the bridge.
 
-System List Woo maps the review list to the Comments List shell and its direct
-review items to List rows. System List Flush Woo maps that same public review
-list to the generic flush List shell and direct review items to flush rows.
-System Panel Woo maps each top-level review item to a Comments Panel. Nested
-reply lists retain Woo markup and receive only the corresponding comments-thread
-rail, indentation, and spacing treatment. Author, metadata, content, rating,
-and pagination remain baseline or Woo-owned except for inherited presentation
-color and spacing.
+System List Flush is not registered for Product Review Template or the archive
+review blocks because the existing Comments master does not provide a
+corresponding Flush treatment. Product Reviews, Review Title, Author Name,
+Date, Content, Rating, and Form otherwise remain native WooCommerce
+presentation. The theme compatibility layer owns only baseline semantic
+typography, rhythm, and form compatibility. Legacy Product Details Reviews
+also remains native.
 
-The mapping registry retains the seven validated SystemStrap pagination
-treatments with the `-woo` suffix: System UI Pagination, Outline, Pill, Pill
-Outline, Square, Square Outline, and Badge. The modern Reviews Pagination
-adapter adds the selected class to Woo's public pagination wrapper. The Reviews
-adapter adds that same class to the legacy Reviews wrapper, where it scopes only
-the public `.woocommerce-pagination` descendant. Pagination links, current-page
-semantics, disabled state, and Woo navigation behavior remain Woo-owned.
+The installed Woo block metadata exposes native appearance controls on several
+of these blocks. Any future System List, System List Flush, or System Panel
+treatment MUST first use the normal block-style path where its registered
+block and public DOM support it. It MUST NOT reintroduce a whole-review
+companion admin mapping without a source-proven Styles-UI limitation.
 
-Modern Reviews and legacy `comments_template()` fallback require separate
-public-descendant adapters beneath one selected root contract. Review rating,
-review form, reply, pagination click behavior, and accessible/native state must
-remain WooCommerce-owned.
+Modern Reviews Pagination and its Previous, Numbers, and Next child blocks
+register all seven normal System UI Pagination Styles UI treatments. Their
+public block classes consume the shared theme `system-ui-pagination.css`
+master directly. A parent treatment establishes inherited control variables;
+an authored child treatment overrides only that public child role. Native
+selection adds no companion bridge.
+
+Legacy Product Details review pagination remains native because it has no
+normal block Styles UI and no longer has a companion presentation setting. The
+companion does not inject a legacy pagination class or duplicate pagination
+paint. Pagination links, current-page semantics, disabled state, URLs, and Woo
+navigation behavior remain Woo-owned. Review rating, review form, reply,
+pagination click behavior, and accessible/native state remain WooCommerce-owned.
 
 ### Cart and Checkout
 
-Cart and Checkout are Level 5 application boundaries. A future mapping may
-select only their public application root or a separately source-proven stable
-public component surface.
+Cart and Checkout are locked application boundaries. Their only approved
+companion mappings are Native WooCommerce or System Panel on these stable
+public region roots:
+
+- Cart Items: `woocommerce/cart-items-block`;
+- Cart Totals: `woocommerce/cart-totals-block`;
+- Checkout Fields: `woocommerce/checkout-fields-block`;
+- Checkout Totals: `woocommerce/checkout-order-summary-block`, nested in
+  `woocommerce/checkout-totals-block`.
+
+System Panel maps each selected public object to the theme-owned neutral
+`.strap-panel-surface` master. The Cart/Checkout sidebar parent owns desktop
+major-column rhythm: when both adjacent selected objects consume System Panel,
+the companion replaces Woo's painted-child gutter simulation with the standard
+roomy SystemStrap major-component gap,
+`var(--wp--preset--spacing--40)`, while retaining Woo's 65/35 flexible ratio.
+The gap ceases to affect sibling rhythm when Woo stacks its columns at its
+existing 699px container transition. Cart Items, Cart Totals, and Checkout
+Fields receive the standard SystemStrap component inset with
+`var(--wp--preset--spacing--30)`; Checkout Order Summary preserves Woo's own
+compact internal shell and consumes only the neutral outer surface. The
+adapter does not wrap, replace, or style individual Cart rows, Cart totals
+children, Checkout controls, or nested Woo application regions. The editor
+uses those same public classes and theme master when a mapping is selected, so
+locked regions do not preview as Native while rendering as Panel on the
+frontend.
 
 The companion must not rewrite, filter-propagate into, or take ownership of
 hydrated cart state, loading masks, quantity events, address fields, shipping,
@@ -214,8 +247,8 @@ behavior.
 
 ### Account
 
-Account Navigation is the sole current Account Class C application component.
-It has no useful block Styles UI and therefore uses only the validated companion
+Account Navigation is a current Account Class C application component. It has
+no useful block Styles UI and therefore uses only the validated companion
 component mapping option. It may select Native WooCommerce, System List Woo, or
 System List Flush Woo. It MUST NOT claim System Navigation treatment because
 its public `nav > ul > li > a` markup lacks the Core Navigation structure
@@ -233,10 +266,32 @@ and MUST NOT receive standalone Panel chrome.
 
 Account forms and notices remain owned by the SystemStrap theme compatibility
 baseline and WooCommerce. They MUST NOT receive a companion mapping or
-companion-only presentation CSS. Orders Table and Downloads structural
-treatments are deferred: no independent Account-table mapping may be exposed
-until one unified Woo Tables presentation decision has a validated master and
-public-DOM contract.
+companion-only presentation CSS.
+
+Woo Addresses is a validated Class C presentation decision for My Account
+address surfaces only: Native WooCommerce or System Panel. System Panel adds
+the theme-owned neutral `.strap-panel-surface` class directly to each public
+`.woocommerce-Address` card rendered by `myaccount/my-address.php` and to each
+existing `<address>` element in the authenticated View Order
+`order/order-details-customer.php` template. It MUST preserve Woo's title,
+populated-or-empty address output, Add/Edit link, responsive columns,
+semantics, endpoint URLs, and View Order address padding. My Account overview
+cards have no native card inset, so their adapter MAY add only the standard
+SystemStrap component inset `var(--wp--preset--spacing--30)`; it MUST NOT add
+descendant styling. It MUST NOT wrap or restructure either surface or apply to
+the Edit Address form, Checkout Fields, or Order Confirmation address blocks.
+My Account is shortcode/template output and has no editor-parity requirement.
+
+Woo Tables is one validated Class C presentation decision: Native WooCommerce
+or System Panel. The System Panel selection may wrap only the stable public
+Account Orders, Account Downloads, Account Payment Methods, View Order Details,
+and View Order Downloads output. It maps that wrapper to the theme-owned
+`.strap-table-surface` master; it MUST NOT own `shop_table_responsive`,
+`data-title`, semantic table structure, responsive reflow, action controls,
+query behavior, or endpoint markup. Cart, Checkout, Mini Cart, grouped and
+variable purchase-control tables, admin, email, Reviews, forms, and navigation
+remain outside this mapping. No endpoint-specific table treatment or
+companion-owned table paint family may be introduced.
 
 Endpoint-specific descendants without a public runtime contract remain Native
 or deferred. They must not be styled through inferred selectors.
@@ -244,7 +299,8 @@ or deferred. They must not be styled through inferred selectors.
 SystemStrap's conditional theme compatibility layer owns the Account baseline:
 theme typography, ordinary spacing, native form controls, semantic table rhythm,
 native navigation readability, notices, focus, disabled, invalid, and responsive
-behavior. The companion owns only the optional Account Navigation presentation.
+behavior. The companion owns only the optional Account Navigation and unified
+Woo Tables and Woo Addresses presentation adapters.
 
 ## Native Product Gallery exception
 
@@ -269,16 +325,23 @@ Every candidate Woo block must be classified before a variation is registered:
 - **Class D:** private application component; use only safe baseline or stable
   public bridges and never DOM rewriting.
 
-Product Template is Class A. Product Button is Class B. Product Reviews and
-Reviews Pagination are Class C. This gate applies to future Woo, BuddyPress,
+Product Template and review-content blocks with registered styles are Class A.
+Product Button is Class B. Account Navigation, Woo Tables, Woo Addresses, Cart Items, Cart
+Totals, Checkout Fields, and Checkout Totals are Class C locked application
+surfaces with narrowly scoped public-root adapters. Reviews Pagination is
+Class A for its modern parent and child blocks; legacy Product Details
+pagination remains Native. This gate applies to future Woo, BuddyPress,
 bbPress, and other SystemStrap companion integrations.
 
 ## Editor and frontend parity
 
-Every future public block-style treatment must validate saved editor behavior
-and frontend behavior. Different editor and frontend public roots require
-separate minimal support or deferral; they do not authorize broad render-time
-class injection.
+Every block-rendered public SystemStrap treatment MUST have representative
+editor presentation using the same visual authority as its frontend output,
+unless a documented technical exception proves meaningful editor preview is
+impossible. Different editor and frontend public roots require separate minimal
+support or deferral. A locked Class C application surface may use a narrowly
+scoped render-time public-root class adapter only when its matching editor
+adapter consumes the same presentation authority.
 
 ## Boundaries
 

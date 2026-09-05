@@ -58,83 +58,6 @@ function strap_woocommerce_component_registry() {
 				'native' => array( 'label' => 'Native WooCommerce' ),
 			),
 		),
-		'reviews' => array(
-			'label'       => 'Reviews',
-			'block_name'  => 'woocommerce/product-reviews',
-			'sibling'     => 'core/comments',
-			'default'     => 'native',
-			'application' => 'admin_mapping',
-			'treatments'  => array(
-				'native'                => array( 'label' => 'Native WooCommerce' ),
-				'system-list-woo'       => array(
-					'label'              => 'System List Woo',
-					'class'              => 'is-style-system-list-woo',
-					'stylesheet'         => 'woocommerce-product-reviews-system-list-woo.css',
-					'presentation_depth' => 2,
-					'child_targets'      => array( '> .wp-block-woocommerce-product-review-template > li', '#reviews #comments > .commentlist > li' ),
-				),
-				'system-list-flush-woo' => array(
-					'label'              => 'System List Flush Woo',
-					'class'              => 'is-style-system-list-flush-woo',
-					'stylesheet'         => 'woocommerce-product-reviews-system-list-woo.css',
-					'presentation_depth' => 2,
-					'child_targets'      => array( '> .wp-block-woocommerce-product-review-template > li', '#reviews #comments > .commentlist > li' ),
-				),
-				'system-panel-woo'    => array(
-					'label'              => 'System Panel Woo',
-					'class'              => 'is-style-system-panel-woo',
-					'stylesheet'         => 'woocommerce-product-reviews-system-panel-woo.css',
-					'presentation_depth' => 2,
-					'child_targets'      => array( '> .wp-block-woocommerce-product-review-template > li', '#reviews #comments > .commentlist > li' ),
-					'propagated_styles'  => array( 'background', 'background_image', 'color' ),
-				),
-			),
-		),
-		'reviews_pagination' => array(
-			'label'       => 'Reviews Pagination',
-			'block_name'  => 'woocommerce/product-reviews-pagination',
-			'sibling'     => 'core/comments-pagination',
-			'default'     => 'native',
-			'application' => 'admin_mapping',
-			'treatments'  => array(
-				'native' => array( 'label' => 'Native WooCommerce' ),
-				'system-ui-pagination-woo' => array(
-					'label'        => 'System UI Pagination Woo',
-					'class'        => 'is-style-system-ui-pagination-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-				'system-ui-pagination-outline-woo' => array(
-					'label'        => 'System UI Pagination Outline Woo',
-					'class'        => 'is-style-system-ui-pagination-outline-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-				'system-ui-pagination-pill-woo' => array(
-					'label'        => 'System UI Pagination Pill Woo',
-					'class'        => 'is-style-system-ui-pagination-pill-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-				'system-ui-pagination-pill-outline-woo' => array(
-					'label'        => 'System UI Pagination Pill Outline Woo',
-					'class'        => 'is-style-system-ui-pagination-pill-outline-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-				'system-ui-pagination-square-woo' => array(
-					'label'        => 'System UI Pagination Square Woo',
-					'class'        => 'is-style-system-ui-pagination-square-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-				'system-ui-pagination-square-outline-woo' => array(
-					'label'        => 'System UI Pagination Square Outline Woo',
-					'class'        => 'is-style-system-ui-pagination-square-outline-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-				'system-ui-pagination-badge-woo' => array(
-					'label'        => 'System UI Pagination Badge Woo',
-					'class'        => 'is-style-system-ui-pagination-badge-woo',
-					'stylesheet'   => 'woocommerce-product-reviews-pagination-system-ui-pagination-woo.css',
-				),
-			),
-		),
 		'product_button' => array(
 			'label'       => 'Product Button',
 			'block_name'  => 'woocommerce/product-button',
@@ -206,11 +129,96 @@ function strap_woocommerce_component_registry() {
 				'system-list-flush-woo' => array( 'label' => 'System List Flush Woo', 'class' => 'is-style-system-list-flush-woo', 'stylesheet' => 'woocommerce-my-account-mapped-woo.css', 'presentation_depth' => 2, 'child_targets' => array( '> nav > ul > li' ) ),
 			),
 		),
-		'cart_checkout' => array(
-			'label'       => 'Cart and Checkout Controls',
+		'woo_tables' => array(
+			'label'       => 'Woo Tables',
+			'sibling'     => 'core/table',
 			'default'     => 'native',
-			'application' => 'bridge_css',
-			'treatments'  => array( 'native' => array( 'label' => 'WooCommerce Native Structure' ) ),
+			'application' => 'admin_mapping',
+			'treatments'  => array(
+				'native'           => array( 'label' => 'Native WooCommerce' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'strap-table-surface',
+					'stylesheet'         => 'woocommerce-tables-system-panel.css',
+					'presentation_depth' => 1,
+					'child_targets'      => array( '> table' ),
+				),
+			),
+		),
+		'woo_addresses' => array(
+			'label'       => 'Woo Addresses',
+			'default'     => 'native',
+			'application' => 'admin_mapping',
+			'treatments'  => array(
+				'native'           => array( 'label' => 'Native WooCommerce' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'strap-panel-surface',
+					'stylesheet'         => 'woocommerce-addresses-system-panel.css',
+					'theme_style_handle' => 'strap-panel-surface',
+					'presentation_depth' => 1,
+				),
+			),
+		),
+		'cart_items' => array(
+			'label'       => 'Cart Items',
+			'block_name'  => 'woocommerce/cart-items-block',
+			'default'     => 'native',
+			'application' => 'admin_mapping',
+			'treatments'  => array(
+				'native'           => array( 'label' => 'Native WooCommerce' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'strap-panel-surface',
+					'stylesheet'         => 'woocommerce-application-panel-composition.css',
+					'theme_style_handle' => 'strap-panel-surface',
+				),
+			),
+		),
+		'cart_totals' => array(
+			'label'       => 'Cart Totals',
+			'block_name'  => 'woocommerce/cart-totals-block',
+			'default'     => 'native',
+			'application' => 'admin_mapping',
+			'treatments'  => array(
+				'native'           => array( 'label' => 'Native WooCommerce' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'strap-panel-surface',
+					'stylesheet'         => 'woocommerce-application-panel-composition.css',
+					'theme_style_handle' => 'strap-panel-surface',
+				),
+			),
+		),
+		'checkout_fields' => array(
+			'label'       => 'Checkout Fields',
+			'block_name'  => 'woocommerce/checkout-fields-block',
+			'default'     => 'native',
+			'application' => 'admin_mapping',
+			'treatments'  => array(
+				'native'           => array( 'label' => 'Native WooCommerce' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'strap-panel-surface',
+					'stylesheet'         => 'woocommerce-application-panel-composition.css',
+					'theme_style_handle' => 'strap-panel-surface',
+				),
+			),
+		),
+		'checkout_totals' => array(
+			'label'       => 'Checkout Totals',
+			'block_name'  => 'woocommerce/checkout-order-summary-block',
+			'default'     => 'native',
+			'application' => 'admin_mapping',
+			'treatments'  => array(
+				'native'           => array( 'label' => 'Native WooCommerce' ),
+				'system-panel-woo' => array(
+					'label'              => 'System Panel',
+					'class'              => 'strap-panel-surface',
+					'stylesheet'         => 'woocommerce-application-panel-composition.css',
+					'theme_style_handle' => 'strap-panel-surface',
+				),
+			),
 		),
 	);
 }

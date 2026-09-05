@@ -39,7 +39,7 @@ function strap_woocommerce_register_styles() {
 	wp_register_script(
 		'strap-woocommerce-editor-compatibility',
 		plugin_dir_url( __DIR__ ) . 'assets/js/editor-compatibility.js',
-		array( 'wp-hooks' ),
+		array( 'wp-hooks', 'wp-compose', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-i18n' ),
 		$version,
 		true
 	);
@@ -158,13 +158,56 @@ function strap_woocommerce_enqueue_editor_compatibility() {
 		'strap-woocommerce-editor-compatibility',
 		'strapWooEditorCompatibility',
 		array(
-			'blocks' => strap_woocommerce_editor_compatibility_registry(),
+			'blocks'                 => strap_woocommerce_editor_compatibility_registry(),
+			'applicationPanelBlocks' => strap_woocommerce_get_selected_application_panel_blocks(),
 		)
 	);
 
 	wp_enqueue_script( 'strap-woocommerce-editor-compatibility' );
 }
 add_action( 'enqueue_block_editor_assets', 'strap_woocommerce_enqueue_editor_compatibility', 0 );
+
+/**
+ * Return locked Woo application blocks that currently consume System Panel.
+ *
+ * @return array<string, string>
+ */
+function strap_woocommerce_get_selected_application_panel_blocks() {
+	$blocks = array();
+
+	foreach ( strap_woocommerce_component_registry() as $component_id => $component ) {
+		if ( 'admin_mapping' !== ( $component['application'] ?? '' ) || empty( $component['block_name'] ) || 'system-panel-woo' !== strap_woocommerce_get_component_treatment( $component_id ) ) {
+			continue;
+		}
+
+		if ( empty( $component['treatments']['system-panel-woo']['theme_style_handle'] ) ) {
+			continue;
+		}
+
+		$blocks[ $component['block_name'] ] = 'checkout_totals' === $component_id ? 'surface' : 'application';
+	}
+
+	return $blocks;
+}
+
+/**
+ * Load the existing System Panel master for selected locked application
+ * surfaces in the editor. The client adapter only supplies its public class.
+ */
+function strap_woocommerce_enqueue_editor_application_panel_styles() {
+	if ( empty( strap_woocommerce_get_selected_application_panel_blocks() ) ) {
+		return;
+	}
+
+	if ( wp_style_is( 'strap-panel-surface', 'registered' ) ) {
+		wp_enqueue_style( 'strap-panel-surface' );
+	}
+
+	if ( wp_style_is( 'strap-woocommerce-woocommerce-application-panel-composition', 'registered' ) ) {
+		wp_enqueue_style( 'strap-woocommerce-woocommerce-application-panel-composition' );
+	}
+}
+add_action( 'enqueue_block_assets', 'strap_woocommerce_enqueue_editor_application_panel_styles', 11 );
 
 /**
  * Register filesystem-backed Woo block variations declared in the registry.
@@ -243,6 +286,175 @@ function strap_woocommerce_register_block_styles() {
 add_action( 'init', 'strap_woocommerce_register_block_styles', 20 );
 
 /**
+ * Register Review Template styles against the existing SystemStrap Comments
+ * masters. The companion supplies only the Woo block registration; the theme
+ * remains the visual authority.
+ */
+function strap_woocommerce_register_product_review_template_block_styles() {
+	$theme_dir = get_template_directory() . '/';
+	$theme_uri = get_template_directory_uri() . '/';
+	$styles    = array(
+		'system-list'  => array(
+			'label' => __( 'System List', 'systemstrap-woocommerce' ),
+			'file'  => 'core-comments-system-list.css',
+		),
+		'system-panel' => array(
+			'label' => __( 'System Panel', 'systemstrap-woocommerce' ),
+			'file'  => 'core-comments-system-panel.css',
+		),
+	);
+
+	foreach ( $styles as $name => $style ) {
+		$file = $theme_dir . 'assets/css/style-variations/' . $style['file'];
+
+		if ( ! file_exists( $file ) ) {
+			continue;
+		}
+
+		$handle = 'strap-woocommerce-product-review-template-' . $name;
+
+		wp_enqueue_block_style(
+			'woocommerce/product-review-template',
+			array(
+				'handle' => $handle,
+				'src'    => $theme_uri . 'assets/css/style-variations/' . $style['file'],
+				'path'   => $file,
+				'deps'   => array( 'strap-woocommerce-variation-anchor' ),
+			)
+		);
+
+		register_block_style(
+			'woocommerce/product-review-template',
+			array(
+				'name'         => $name,
+				'label'        => $style['label'],
+				'style_handle' => $handle,
+			)
+		);
+	}
+}
+add_action( 'init', 'strap_woocommerce_register_product_review_template_block_styles', 21 );
+
+/**
+ * Register the shared Reviews List and Panel choices for Woo's standalone
+ * archive-review blocks. They consume the same Comments master assets as the
+ * Product Review Template; no archive-specific visual stylesheet is created.
+ */
+function strap_woocommerce_register_archive_review_block_styles() {
+	$theme_dir = get_template_directory() . '/';
+	$theme_uri = get_template_directory_uri() . '/';
+	$blocks    = array(
+		'woocommerce/all-reviews',
+		'woocommerce/reviews-by-product',
+		'woocommerce/reviews-by-category',
+	);
+	$styles    = array(
+		'system-list'  => array(
+			'label' => __( 'System List', 'systemstrap-woocommerce' ),
+			'file'  => 'core-comments-system-list.css',
+		),
+		'system-panel' => array(
+			'label' => __( 'System Panel', 'systemstrap-woocommerce' ),
+			'file'  => 'core-comments-system-panel.css',
+		),
+	);
+
+	foreach ( $styles as $name => $style ) {
+		$file = $theme_dir . 'assets/css/style-variations/' . $style['file'];
+
+		if ( ! file_exists( $file ) ) {
+			continue;
+		}
+
+		$handle = 'strap-woocommerce-archive-reviews-' . $name;
+
+		foreach ( $blocks as $block_name ) {
+			wp_enqueue_block_style(
+				$block_name,
+				array(
+					'handle' => $handle,
+					'src'    => $theme_uri . 'assets/css/style-variations/' . $style['file'],
+					'path'   => $file,
+					'deps'   => array( 'strap-woocommerce-variation-anchor' ),
+				)
+			);
+
+			register_block_style(
+				$block_name,
+				array(
+					'name'         => $name,
+					'label'        => $style['label'],
+					'style_handle' => $handle,
+				)
+			);
+		}
+	}
+}
+add_action( 'init', 'strap_woocommerce_register_archive_review_block_styles', 22 );
+
+/**
+ * Register SystemStrap Pagination styles for Woo's modern Reviews Pagination
+ * block and its public child controls. Theme markers load the shared master;
+ * the companion does not introduce a second pagination stylesheet.
+ */
+function strap_woocommerce_register_product_reviews_pagination_block_styles() {
+	$theme_dir = get_template_directory() . '/';
+	$theme_uri = get_template_directory_uri() . '/';
+
+	if ( ! wp_style_is( 'strap-system-ui-pagination', 'registered' ) ) {
+		return;
+	}
+
+	$styles = array(
+		'system-ui-pagination'                => __( 'System UI Pagination', 'systemstrap-woocommerce' ),
+		'system-ui-pagination-outline'        => __( 'System UI Pagination Outline', 'systemstrap-woocommerce' ),
+		'system-ui-pagination-pill'           => __( 'System UI Pagination Pill', 'systemstrap-woocommerce' ),
+		'system-ui-pagination-pill-outline'   => __( 'System UI Pagination Pill Outline', 'systemstrap-woocommerce' ),
+		'system-ui-pagination-square'         => __( 'System UI Pagination Square', 'systemstrap-woocommerce' ),
+		'system-ui-pagination-square-outline' => __( 'System UI Pagination Square Outline', 'systemstrap-woocommerce' ),
+		'system-ui-pagination-badge'          => __( 'System UI Pagination Badge', 'systemstrap-woocommerce' ),
+	);
+	$blocks = array(
+		'woocommerce/product-reviews-pagination',
+		'woocommerce/product-reviews-pagination-previous',
+		'woocommerce/product-reviews-pagination-numbers',
+		'woocommerce/product-reviews-pagination-next',
+	);
+
+	foreach ( $styles as $name => $label ) {
+		$marker = $theme_dir . 'assets/css/style-variations/core-comments-pagination-' . $name . '.css';
+
+		if ( ! file_exists( $marker ) ) {
+			continue;
+		}
+
+		$handle = 'strap-woocommerce-product-reviews-pagination-' . $name;
+
+		foreach ( $blocks as $block_name ) {
+			wp_enqueue_block_style(
+				$block_name,
+				array(
+					'handle' => $handle,
+					'src'    => $theme_uri . 'assets/css/style-variations/' . basename( $marker ),
+					'path'   => $marker,
+					'deps'   => array( 'strap-system-ui-pagination' ),
+				)
+			);
+
+			register_block_style(
+				$block_name,
+				array(
+					'name'         => $name,
+					'label'        => $label,
+					'style_handle' => $handle,
+				)
+			);
+		}
+	}
+}
+add_action( 'init', 'strap_woocommerce_register_product_reviews_pagination_block_styles', 23 );
+
+/**
  * Register selected component presentation assets that do not have a usable
  * block Styles UI and therefore resolve through the companion mapping option.
  */
@@ -263,11 +475,24 @@ function strap_woocommerce_register_mapped_presentation_styles() {
 
 			$stylesheet = $treatment['stylesheet'];
 			$handle     = 'strap-woocommerce-' . sanitize_title( basename( $stylesheet, '.css' ) );
+			$dependencies = array( 'strap-woocommerce-blocks', 'strap-woocommerce-variation-anchor' );
+
+			if ( 'woocommerce-tables-system-panel.css' === $stylesheet && wp_style_is( 'strap-table-surface', 'registered' ) ) {
+				$dependencies[] = 'strap-table-surface';
+			}
+
+			if ( 'woocommerce-application-panel-composition.css' === $stylesheet && wp_style_is( 'strap-panel-surface', 'registered' ) ) {
+				$dependencies[] = 'strap-panel-surface';
+			}
+
+			if ( 'woocommerce-addresses-system-panel.css' === $stylesheet && wp_style_is( 'strap-panel-surface', 'registered' ) ) {
+				$dependencies[] = 'strap-panel-surface';
+			}
 
 			wp_register_style(
 				$handle,
 				$plugin_url . 'assets/css/style-variations/' . $stylesheet,
-				array( 'strap-woocommerce-blocks', 'strap-woocommerce-variation-anchor' ),
+				$dependencies,
 				$version
 			);
 
@@ -290,11 +515,17 @@ function strap_woocommerce_enqueue_mapped_presentation_styles() {
 		$treatment_name = strap_woocommerce_get_component_treatment( $component_id );
 		$treatment      = $component['treatments'][ $treatment_name ] ?? array();
 
-		if ( 'native' === $treatment_name || empty( $treatment['stylesheet'] ) ) {
+		if ( 'native' === $treatment_name ) {
 			continue;
 		}
 
-		wp_enqueue_style( 'strap-woocommerce-' . sanitize_title( basename( $treatment['stylesheet'], '.css' ) ) );
+		if ( ! empty( $treatment['stylesheet'] ) ) {
+			wp_enqueue_style( 'strap-woocommerce-' . sanitize_title( basename( $treatment['stylesheet'], '.css' ) ) );
+		}
+
+		if ( ! empty( $treatment['theme_style_handle'] ) && wp_style_is( $treatment['theme_style_handle'], 'registered' ) ) {
+			wp_enqueue_style( $treatment['theme_style_handle'] );
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', 'strap_woocommerce_enqueue_mapped_presentation_styles', 21 );

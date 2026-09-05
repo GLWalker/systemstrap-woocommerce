@@ -1,0 +1,10 @@
+/*
+ * Woo Addresses -> System Panel structural adapter.
+ *
+ * My Account address cards have no native card inset. The shared Panel master
+ * owns paint; this rule supplies only the standard component inset.
+ */
+
+.woocommerce-Address.strap-panel-surface {
+	padding: var(--wp--preset--spacing--30);
+}
